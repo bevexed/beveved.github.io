@@ -2,6 +2,13 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>http://blog.bevexed.top/2019/01/23/documentElement%E4%B8%8Ebody/</loc>
+    
+    <lastmod>2019-06-12T05:26:34.567Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>http://blog.bevexed.top/2019/01/29/%E5%AE%89%E8%A3%85%E9%85%8D%E7%BD%AENginx/</loc>
     
     <lastmod>2019-06-12T05:24:55.890Z</lastmod>
@@ -26,13 +33,6 @@
     <loc>http://blog.bevexed.top/2019/02/01/Vue-cli%E6%90%AD%E5%BB%BA%E5%9F%BA%E4%BA%8EtypeScript%E7%9A%84Vue%E9%A1%B9%E7%9B%AE/</loc>
     
     <lastmod>2019-06-12T03:59:40.569Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://blog.bevexed.top/2019/01/23/documentElement%E4%B8%8Ebody/</loc>
-    
-    <lastmod>2019-06-12T03:59:23.215Z</lastmod>
     
   </url>
   
