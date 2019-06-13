@@ -130,18 +130,18 @@
 
 
 
-<meta name="description" content="Title        .root {       display: flex;       border: 1px solid #000;       width: 600px;       margin: 0 auto;       height: 150px;       align-items: center;       justify-content: center;">
+<meta name="description" content="Binary Tree        .root {       display: flex;       border: 1px solid #000;       width: 600px;       margin: 0 auto;       height: 150px;       align-items: center;       justify-content: c">
 <meta name="keywords" content="js,html,css,node,javaScript,html5,css3,vue,canvas">
 <meta property="og:type" content="article">
 <meta property="og:title" content="bev">
-<meta property="og:url" content="http://blog.bevexed.top/2019/06/10/树/exercise/index.html">
+<meta property="og:url" content="http://blog.bevexed.top/2019/06/13/树/exercise/index.html">
 <meta property="og:site_name" content="bev">
-<meta property="og:description" content="Title        .root {       display: flex;       border: 1px solid #000;       width: 600px;       margin: 0 auto;       height: 150px;       align-items: center;       justify-content: center;">
+<meta property="og:description" content="Binary Tree        .root {       display: flex;       border: 1px solid #000;       width: 600px;       margin: 0 auto;       height: 150px;       align-items: center;       justify-content: c">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-06-10T10:18:24.013Z">
+<meta property="og:updated_time" content="2019-06-13T05:44:01.352Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="bev">
-<meta name="twitter:description" content="Title        .root {       display: flex;       border: 1px solid #000;       width: 600px;       margin: 0 auto;       height: 150px;       align-items: center;       justify-content: center;">
+<meta name="twitter:description" content="Binary Tree        .root {       display: flex;       border: 1px solid #000;       width: 600px;       margin: 0 auto;       height: 150px;       align-items: center;       justify-content: c">
 
 
 
@@ -171,7 +171,7 @@
 
 
 
-  <link rel="canonical" href="http://blog.bevexed.top/2019/06/10/树/exercise/"/>
+  <link rel="canonical" href="http://blog.bevexed.top/2019/06/13/树/exercise/"/>
 
 
 
@@ -368,7 +368,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://blog.bevexed.top/2019/06/10/树/exercise/">
+    <link itemprop="mainEntityOfPage" href="http://blog.bevexed.top/2019/06/13/树/exercise/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="bev">
@@ -397,8 +397,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-06-10T18:18:24+08:00">
-                2019-06-10
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-06-13T13:44:01+08:00">
+                2019-06-13
               </time>
             
 
@@ -416,9 +416,9 @@
                 <span class="post-meta-item-icon">
                   <i class="fa fa-comment-o"></i>
                 </span>
-                <a href="/2019/06/10/树/exercise/#comments" itemprop="discussionUrl">
+                <a href="/2019/06/13/树/exercise/#comments" itemprop="discussionUrl">
                   <span class="post-comments-count disqus-comment-count"
-                        data-disqus-identifier="2019/06/10/树/exercise/" itemprop="commentCount"></span>
+                        data-disqus-identifier="2019/06/13/树/exercise/" itemprop="commentCount"></span>
                 </a>
               </span>
             
@@ -426,7 +426,7 @@
 
           
           
-             <span id="/2019/06/10/树/exercise/" class="leancloud_visitors" data-flag-title="">
+             <span id="/2019/06/13/树/exercise/" class="leancloud_visitors" data-flag-title="">
                <span class="post-meta-divider">|</span>
                <span class="post-meta-item-icon">
                  <i class="fa fa-eye"></i>
@@ -451,7 +451,7 @@
                   <span class="post-meta-item-text">字数统计&#58;</span>
                 
                 <span title="字数统计">
-                  166
+                  550
                 </span>
               
 
@@ -467,7 +467,7 @@
                   <span class="post-meta-item-text">阅读时长 &asymp;</span>
                 
                 <span title="阅读时长">
-                  1
+                  2
                 </span>
               
             </div>
@@ -492,7 +492,7 @@
 <html lang="en">
 <head><meta name="generator" content="Hexo 3.8.0">
   <meta charset="UTF-8">
-  <title>Title</title>
+  <title>Binary Tree</title>
   <style>
     .root {
       display: flex;
@@ -533,15 +533,18 @@
 </body>
 
 <script>
-  class Tree {
-    constructor(node) {
-      this.node = node;
+  /**
+   * 深度优先遍历的递归写法
+   * 原理：递归的回溯性
+   */
+  class TravelTree {
+    constructor() {
       this.nodeList = [];
     }
 
     preOrder = node => {
       if (node) {
-        this.nodeList.push(node.firstChild.textContent.replace(/\n/g, '').trim());
+        this.nodeList.push(node.firstChild.textContent.trim());
         this.preOrder(node.firstElementChild);
         this.preOrder(node.lastElementChild);
       }
@@ -550,7 +553,7 @@
     inOrder = node => {
       if (node) {
         this.inOrder(node.firstElementChild);
-        this.nodeList.push(node.firstChild.textContent.replace(/\n/g, '').trim());
+        this.nodeList.push(node.firstChild.textContent.trim());
         this.inOrder(node.lastElementChild);
       }
     };
@@ -559,7 +562,7 @@
       if (node) {
         this.postOrder(node.firstElementChild);
         this.postOrder(node.lastElementChild);
-        this.nodeList.push(node.firstChild.textContent.replace(/\n/g, '').trim());
+        this.nodeList.push(node.firstChild.textContent.trim());
       }
     };
 
@@ -570,8 +573,9 @@
   }
 
   let node = document.querySelector('.root');
-  let tree = new Tree(node);
+  let tree = new TravelTree();
 
+  console.log('TravelTree');
   tree.reset();
   tree.preOrder(node);
   console.log(tree.nodeList);
@@ -583,6 +587,124 @@
   tree.reset();
   tree.postOrder(node);
   console.log(tree.nodeList);
+
+  // 深度优先遍历的非递归写法
+  class StackTree {
+    constructor() {
+      this.nodeList = [];
+      this.stack = []
+    }
+
+
+    preOrder(node) {
+      let treeNode = node;
+      while (treeNode || this.stack.length) {
+        // 进栈 将所有左节点压栈
+        while (treeNode) {
+          this.stack.push(treeNode);
+          this.nodeList.push(treeNode.firstChild.textContent.trim());
+          treeNode = treeNode.firstElementChild;
+        }
+        // 出栈
+        if (this.stack.length) {
+          treeNode = this.stack.pop();
+          treeNode = treeNode.lastElementChild;
+        }
+      }
+    }
+
+    inOrder(node) {
+      let treeNode = node;
+      while (treeNode || this.stack.length) {
+        while (treeNode) {
+          this.stack.push(treeNode);
+          treeNode = treeNode.firstElementChild;
+        }
+        if (this.stack.length) {
+          treeNode = this.stack.pop();
+          this.nodeList.push(treeNode.firstChild.textContent.trim());
+          treeNode = treeNode.lastElementChild;
+        }
+      }
+    }
+
+    /*
+    *  将根节点压入第一个栈
+    *  从第一个栈中弹出一个元素，压入第二个栈
+    *  然后分别将该节点的左右孩子压入第一个栈
+    *  重复步骤2和步骤3直到第一个栈为空
+    *  执行结束，第二个栈中就保存了所有节点的后序遍历输出结果。依次将元素从第二个栈中弹出即可。
+    */
+
+    postOrder(node) {
+      let treeNode = node;
+      this.stack.push(treeNode);
+      while (this.stack.length) {
+        treeNode = this.stack.pop();
+        this.nodeList.unshift(treeNode.firstChild.textContent.trim());
+
+        if (treeNode.firstElementChild) {
+          this.stack.push(treeNode.firstElementChild)
+        }
+        if (treeNode.lastElementChild) {
+          this.stack.push(treeNode.lastElementChild)
+        }
+      }
+    }
+
+    reset() {
+      this.stack = [];
+      this.nodeList = [];
+    }
+
+  }
+
+  let stackTree = new StackTree();
+  console.log('stackTree');
+
+  stackTree.preOrder(node);
+  console.log(stackTree.nodeList);
+
+  stackTree.reset();
+  stackTree.inOrder(node);
+  console.log(stackTree.nodeList);
+
+  stackTree.reset();
+  stackTree.postOrder(node);
+  console.log(stackTree.nodeList);
+
+  // 广度度优先遍历非递归
+  class WidthTravelTree {
+    constructor() {
+      this.nodeList = [];
+      this.stack = []
+    }
+
+    // 队列
+    widthTravel(node) {
+      if (node) {
+        this.stack.push(node);
+        this.nodeList.push(node.firstChild.textContent.trim());
+        while (this.stack.length) {
+          let item = this.stack.shift();
+          if (item.firstElementChild) {
+            this.nodeList.push(item.firstElementChild.firstChild.textContent.trim());
+            this.stack.push(item.firstElementChild);
+          }
+          if (item.lastElementChild) {
+            this.nodeList.push(item.lastElementChild.firstChild.textContent.trim());
+            this.stack.push(item.lastElementChild)
+          }
+        }
+      }
+    }
+  }
+
+
+  console.log('WidthTravelTree');
+  let widthTravelTree = new WidthTravelTree();
+  widthTravelTree.widthTravel(node);
+  console.log(widthTravelTree.nodeList);
 
 </script>
 </html>
@@ -810,7 +932,7 @@
     
       <span class="post-meta-item-text">Site words total count&#58;</span>
     
-    <span title="Site words total count">18.3k</span>
+    <span title="Site words total count">19.1k</span>
   
 </div>
 
@@ -958,8 +1080,8 @@
     
       <script type="text/javascript">
         var disqus_config = function () {
-          this.page.url = 'http://blog.bevexed.top/2019/06/10/树/exercise/';
-          this.page.identifier = '2019/06/10/树/exercise/';
+          this.page.url = 'http://blog.bevexed.top/2019/06/13/树/exercise/';
+          this.page.identifier = '2019/06/13/树/exercise/';
           this.page.title = '';
         };
         var d = document, s = d.createElement('script');
