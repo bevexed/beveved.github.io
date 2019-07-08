@@ -130,17 +130,18 @@
 
 
 
-<meta name="description" content="前端日常学习">
+<meta name="description" content="二叉堆 本质是一种 完全二叉树 有 最小堆 和 最大堆 两种 二叉堆的根节点叫做 堆顶 最大堆的堆顶是整个堆中的 最大元素 最小堆的堆顶是整个堆中的 最小元素  最大堆任何一个 父节点 的值，都 大于或等于 它左、右孩子节点的值 最小堆任何一个 父节点 的值，都 小于或等于 它左、右孩子节点的值 二叉堆的自我调整把一个不符合堆性质的完全二叉树，调整成一个堆，操作有  插入节点 删除节点 构建二叉堆">
 <meta name="keywords" content="js,html,css,node,javaScript,html5,css3,vue,canvas">
-<meta property="og:type" content="website">
-<meta property="og:title" content="bev">
-<meta property="og:url" content="http://blog.bevexed.top/archives/2019/04/index.html">
+<meta property="og:type" content="article">
+<meta property="og:title" content="二叉堆">
+<meta property="og:url" content="http://blog.bevexed.top/2019/06/13/二叉堆/index.html">
 <meta property="og:site_name" content="bev">
-<meta property="og:description" content="前端日常学习">
+<meta property="og:description" content="二叉堆 本质是一种 完全二叉树 有 最小堆 和 最大堆 两种 二叉堆的根节点叫做 堆顶 最大堆的堆顶是整个堆中的 最大元素 最小堆的堆顶是整个堆中的 最小元素  最大堆任何一个 父节点 的值，都 大于或等于 它左、右孩子节点的值 最小堆任何一个 父节点 的值，都 小于或等于 它左、右孩子节点的值 二叉堆的自我调整把一个不符合堆性质的完全二叉树，调整成一个堆，操作有  插入节点 删除节点 构建二叉堆">
 <meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2019-06-13T10:15:10.012Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="bev">
-<meta name="twitter:description" content="前端日常学习">
+<meta name="twitter:title" content="二叉堆">
+<meta name="twitter:description" content="二叉堆 本质是一种 完全二叉树 有 最小堆 和 最大堆 两种 二叉堆的根节点叫做 堆顶 最大堆的堆顶是整个堆中的 最大元素 最小堆的堆顶是整个堆中的 最小元素  最大堆任何一个 父节点 的值，都 大于或等于 它左、右孩子节点的值 最小堆任何一个 父节点 的值，都 小于或等于 它左、右孩子节点的值 二叉堆的自我调整把一个不符合堆性质的完全二叉树，调整成一个堆，操作有  插入节点 删除节点 构建二叉堆">
 
 
 
@@ -170,13 +171,13 @@
 
 
 
-  <link rel="canonical" href="http://blog.bevexed.top/archives/2019/04/">
+  <link rel="canonical" href="http://blog.bevexed.top/2019/06/13/二叉堆/">
 
 
 
 
 
-  <title>归档 | bev</title>
+  <title>二叉堆 | bev</title>
   
 
 
@@ -195,7 +196,7 @@
     
   
 
-  <div class="container sidebar-position-left page-archive">
+  <div class="container sidebar-position-left page-post-detail">
     <div class="headband"></div>
 
     <header id="header" class="header" itemscope="" itemtype="http://schema.org/WPHeader">
@@ -351,142 +352,244 @@
           <div id="content" class="content">
             
 
-  
-  
-  
-  <div class="post-block archive">
-    <div id="posts" class="posts-collapse">
-      <span class="archive-move-on"></span>
+  <div id="posts" class="posts-expand">
+    
 
-      <span class="archive-page-counter">
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://blog.bevexed.top/2019/06/13/二叉堆/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="bev">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/IMG_2021.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="bev">
+    </span>
+
+    
+      <header class="post-header">
+
         
         
+          <h2 class="post-title" itemprop="name headline">二叉堆</h2>
         
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-06-13T13:55:15+08:00">
+                2019-06-13
+              </time>
+            
+
+            
+
+            
+          </span>
+
           
-        
-        嗯..! 目前共计 26 篇日志。 继续努力。
-      </span>
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
+                  <a href="/categories/算法/" itemprop="url" rel="index">
+                    <span itemprop="name">算法</span>
+                  </a>
+                </span>
 
-      
-
-        
-        
-        
-
-        
+                
+                
+              
+            </span>
           
-          <div class="collection-title">
-            <h2 class="archive-year" id="archive-year-2019">2019</h2>
-          </div>
-        
-        
 
-        
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2019/06/13/二叉堆/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2019/06/13/二叉堆/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
 
-  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
-    <header class="post-header">
+          
+          
+             <span id="/2019/06/13/二叉堆/" class="leancloud_visitors" data-flag-title="二叉堆">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数&#58;</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
 
-      <h3 class="post-title">
-        
-            <a class="post-title-link" href="/2019/04/26/函数节流与函数防抖/" itemprop="url">
+          
+
+          
+            <div class="post-wordcount">
               
-                <span itemprop="name">函数节流与函数防抖</span>
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">字数统计&#58;</span>
+                
+                <span title="字数统计">
+                  349
+                </span>
               
-            </a>
-        
-      </h3>
 
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated" datetime="2019-04-26T10:39:53+08:00" content="2019-04-26">
-          04-26
-        </time>
-      </div>
+              
+                <span class="post-meta-divider">|</span>
+              
 
-    </header>
-  </article>
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">阅读时长 &asymp;</span>
+                
+                <span title="阅读时长">
+                  1
+                </span>
+              
+            </div>
+          
 
+          
 
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
 
       
-
-        
-        
-        
-
-        
-        
-
-        
-
-  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h3 class="post-title">
-        
-            <a class="post-title-link" href="/2019/04/02/indexedDB/" itemprop="url">
-              
-                <span itemprop="name">indexedDB</span>
-              
-            </a>
-        
-      </h3>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated" datetime="2019-04-02T18:18:51+08:00" content="2019-04-02">
-          04-02
-        </time>
-      </div>
-
-    </header>
-  </article>
-
-
-
       
 
-        
-        
-        
-
-        
-        
-
-        
-
-  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h3 class="post-title">
-        
-            <a class="post-title-link" href="/2019/04/02/browser-sync/" itemprop="url">
-              
-                <span itemprop="name">browser-sync 安装与使用</span>
-              
-            </a>
-        
-      </h3>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated" datetime="2019-04-02T14:35:48+08:00" content="2019-04-02">
-          04-02
-        </time>
-      </div>
-
-    </header>
-  </article>
-
-
+      
+        <h1 id="二叉堆"><a href="#二叉堆" class="headerlink" title="二叉堆"></a>二叉堆</h1><ul>
+<li>本质是一种 <strong>完全二叉树</strong></li>
+<li>有 <strong>最小堆</strong> 和 <strong>最大堆</strong> 两种</li>
+<li>二叉堆的根节点叫做 <strong>堆顶</strong></li>
+<li>最大堆的堆顶是整个堆中的 <strong>最大元素</strong></li>
+<li>最小堆的堆顶是整个堆中的 <strong>最小元素</strong></li>
+</ul>
+<h2 id="最大堆"><a href="#最大堆" class="headerlink" title="最大堆"></a>最大堆</h2><p>任何一个 <strong>父节点</strong> 的值，都 <strong>大于或等于</strong> 它左、右孩子节点的值</p>
+<h2 id="最小堆"><a href="#最小堆" class="headerlink" title="最小堆"></a>最小堆</h2><p>任何一个 <strong>父节点</strong> 的值，都 <strong>小于或等于</strong> 它左、右孩子节点的值</p>
+<h2 id="二叉堆的自我调整"><a href="#二叉堆的自我调整" class="headerlink" title="二叉堆的自我调整"></a>二叉堆的自我调整</h2><p>把一个不符合堆性质的完全二叉树，调整成一个堆，操作有</p>
+<ul>
+<li>插入节点</li>
+<li>删除节点</li>
+<li>构建二叉堆</li>
+</ul>
+<h3 id="插入节点"><a href="#插入节点" class="headerlink" title="插入节点"></a>插入节点</h3><ol>
+<li>二叉堆插入节点时，插入位置是完全二叉树的 <strong>最后</strong> 一个位置</li>
+<li>新节点通过与父节点比较位置和 <strong>上浮</strong> 来确认节点的位置</li>
+</ol>
+<h3 id="删除节点"><a href="#删除节点" class="headerlink" title="删除节点"></a>删除节点</h3><ol>
+<li>二叉堆删除的是 <strong>堆顶</strong> 的节点</li>
+<li>此时为了维持二叉堆的结构，需要用 <strong>最后一个</strong> 节点临时补充到堆顶的位置</li>
+<li>通过 <strong>下沉</strong> 来确认节点的位置</li>
+</ol>
+<h3 id="构建二叉堆"><a href="#构建二叉堆" class="headerlink" title="构建二叉堆"></a>构建二叉堆</h3><ul>
+<li>通过所有子叶 <strong>下沉</strong> 实现</li>
+<li>下沉从最后一个节点开始</li>
+<li>二叉堆的所有节点都存储在 <strong>数组</strong> 中</li>
+<li>如果父节点的下标是 <strong>parent</strong>，则左孩子的下标为 <strong>2 * parent + 1</strong>，右孩子的下标为 <strong>2 * parent + 2</strong></li>
+</ul>
 
       
-
     </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/06/13/树/exercise/" rel="next" title="">
+                <i class="fa fa-chevron-left"></i> 
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
   </div>
   
   
   
+  </article>
 
-  
 
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
 
 
           </div>
@@ -494,6 +597,20 @@
 
 
           
+
+  
+    <div class="comments" id="comments">
+      <div id="disqus_thread">
+        <noscript>
+          Please enable JavaScript to view the
+          <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a>
+        </noscript>
+      </div>
+    </div>
+
+  
+
+
 
         </div>
         
@@ -516,8 +633,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
 
-      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+      <section class="site-overview-wrap sidebar-panel">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
             
@@ -614,6 +740,22 @@
         </div>
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#二叉堆"><span class="nav-text">二叉堆</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#最大堆"><span class="nav-text">最大堆</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#最小堆"><span class="nav-text">最小堆</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#二叉堆的自我调整"><span class="nav-text">二叉堆的自我调整</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#插入节点"><span class="nav-text">插入节点</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#删除节点"><span class="nav-text">删除节点</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#构建二叉堆"><span class="nav-text">构建二叉堆</span></a></li></ol></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       
@@ -766,6 +908,10 @@
 
 
   
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
 
   
 
@@ -783,6 +929,18 @@
       <script id="dsq-count-scr" src="https://.disqus.com/count.js" async></script>
     
 
+    
+      <script type="text/javascript">
+        var disqus_config = function () {
+          this.page.url = 'http://blog.bevexed.top/2019/06/13/二叉堆/';
+          this.page.identifier = '2019/06/13/二叉堆/';
+          this.page.title = '二叉堆';
+        };
+        var d = document, s = d.createElement('script');
+        s.src = 'https://.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', '' + +new Date());
+        (d.head || d.body).appendChild(s);
+      </script>
     
 
   
@@ -1292,26 +1450,6 @@
   
 
   
-  
-    <script type="text/x-mathjax-config">
-      MathJax.Hub.Config({
-        tex2jax: {
-          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
-          processEscapes: true,
-          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
-        }
-      });
-    </script>
-
-    <script type="text/x-mathjax-config">
-      MathJax.Hub.Queue(function() {
-        var all = MathJax.Hub.getAllJax(), i;
-        for (i=0; i < all.length; i += 1) {
-          all[i].SourceElement().parentNode.className += ' has-jax';
-        }
-      });
-    </script>
-    <script type="text/javascript" src="//cdn.bootcss.com/mathjax/2.7.1/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
   
 
 
