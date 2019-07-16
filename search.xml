@@ -4,6 +4,31 @@
   
     
     <entry>
+      <title>TCP/IP</title>
+      <link href="/2019/07/16/TCP-IP/"/>
+      <url>/2019/07/16/TCP-IP/</url>
+      
+        <content type="html"><![CDATA[<h1 id="分层"><a href="#分层" class="headerlink" title="分层"></a>分层</h1><ul><li>大多数的网络应用程序都被设计成了 <strong>客户端 - 服务器</strong> 模式</li><li>双方都有对应的 <strong>一或多个</strong> 协议进行通讯</li><li>链路层、网络层、运输层 一般在<strong>内核</strong>中执行，应用程序通常是用户进程</li><li>链路层、网络层、运输层 关注<strong>通讯</strong>细节</li><li>应用层 关注<strong>应用程序</strong></li><li>应用层和运输层使用端到端（end-to-end）协议<br>-</li></ul><h2 id="链路层（以太网-ARP-硬件接口）"><a href="#链路层（以太网-ARP-硬件接口）" class="headerlink" title="链路层（以太网/ARP/硬件接口）"></a>链路层（以太网/ARP/硬件接口）</h2><p>处理与电缆（或其他任何传输媒介）的物理接口细节</p><h2 id="网络层（IP-ICMP-IGMP）"><a href="#网络层（IP-ICMP-IGMP）" class="headerlink" title="网络层（IP/ICMP/IGMP）"></a>网络层（IP/ICMP/IGMP）</h2><p>处理分组在网络中的活动，例如分组选路</p><ul><li>提供逐跳协议（hop-to-hop）</li><li>网络ip提供的是一种不可靠的服务，他只是尽可能快的把分组从源结点送到目的结点，但不提供可靠性保障</li><li>ICMP 是 IP 协议的附属协议（告诉你出问题的原因）</li></ul><h3 id="ICMP"><a href="#ICMP" class="headerlink" title="ICMP"></a>ICMP</h3><h2 id="运输层（TCP-UDP）"><a href="#运输层（TCP-UDP）" class="headerlink" title="运输层（TCP/UDP）"></a>运输层（TCP/UDP）</h2><p>为两台主机上的应用程序提供端到端的通讯</p><ul><li>TCP 在不可靠的IP层上提供了一个可靠的运输层</li><li>UDP 不可靠</li></ul><h2 id="应用层（FTP）"><a href="#应用层（FTP）" class="headerlink" title="应用层（FTP）"></a>应用层（FTP）</h2><p>处理特定的应用程序细节</p><ul><li>互联网的目的之一就是在应用程序中隐藏所有的物理细节</li></ul>]]></content>
+      
+      
+      <categories>
+          
+          <category> 网络基础 </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> 基础 </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>二叉堆</title>
       <link href="/2019/06/13/%E4%BA%8C%E5%8F%89%E5%A0%86/"/>
       <url>/2019/06/13/%E4%BA%8C%E5%8F%89%E5%A0%86/</url>
@@ -397,9 +422,9 @@
       
         <tags>
             
-            <tag> 微信 </tag>
-            
             <tag> Vue </tag>
+            
+            <tag> 微信 </tag>
             
             <tag> 授权 </tag>
             
