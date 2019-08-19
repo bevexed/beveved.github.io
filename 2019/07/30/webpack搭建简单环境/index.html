@@ -138,7 +138,7 @@
 <meta property="og:site_name" content="bev">
 <meta property="og:description" content="初始化 npm npm init  安装 webpack、webpack-cli npm i webpack webpack-cli -S  新建 webpack.dev.config.js1234567module.exports = &amp;#123;  entry: &apos;./src/index.js&apos;,  output: &amp;#123;    path: __dirname,    filename:">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-07-30T08:28:03.586Z">
+<meta property="og:updated_time" content="2019-08-19T02:25:26.030Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="webpack搭建简单环境">
 <meta name="twitter:description" content="初始化 npm npm init  安装 webpack、webpack-cli npm i webpack webpack-cli -S  新建 webpack.dev.config.js1234567module.exports = &amp;#123;  entry: &apos;./src/index.js&apos;,  output: &amp;#123;    path: __dirname,    filename:">
@@ -544,7 +544,7 @@
 </li>
 </ul>
 <h2 id="新建-babelrc"><a href="#新建-babelrc" class="headerlink" title="新建 .babelrc"></a>新建 .babelrc</h2><figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  <span class="attr">"presets"</span>: [</span><br><span class="line">    <span class="string">"es2015"</span>,</span><br><span class="line">    <span class="string">"latest"</span></span><br><span class="line">  ],</span><br><span class="line">  <span class="attr">"plugins"</span>: []</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h2 id="在-webpack-dev-config-中配置-loader"><a href="#在-webpack-dev-config-中配置-loader" class="headerlink" title="在 webpack.dev.config 中配置 loader"></a>在 webpack.dev.config 中配置 loader</h2><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">module</span>: &#123;</span><br><span class="line">    rules: [&#123;</span><br><span class="line">      test: <span class="regexp">/\.js?$/</span>,</span><br><span class="line">      exclude: <span class="regexp">/(node_modules)/</span>,</span><br><span class="line">      loader: <span class="string">'babel-loader'</span></span><br><span class="line">    &#125;]</span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure>
+<h2 id="在-webpack-dev-config-中配置-loader"><a href="#在-webpack-dev-config-中配置-loader" class="headerlink" title="在 webpack.dev.config 中配置 loader"></a>在 webpack.dev.config 中配置 loader</h2><figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">module: &#123;</span><br><span class="line">    rules: [&#123;</span><br><span class="line">      test: /\.js?$/,</span><br><span class="line">      exclude: /(node_modules)/,</span><br><span class="line">      loader: 'babel-loader'</span><br><span class="line">    &#125;]</span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure>
 
       
     </div>
@@ -584,6 +584,10 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/08/19/前端设计模式（设计原则）/" rel="prev" title="前端设计模式（设计原则）">
+                前端设计模式（设计原则） <i class="fa fa-chevron-right"></i>
+              </a>
             
           </div>
         </div>
@@ -674,7 +678,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">29</span>
+                  <span class="site-state-item-count">32</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -685,7 +689,7 @@
               
               <div class="site-state-item site-state-categories">
                 <a href="/categories/index.html">
-                  <span class="site-state-item-count">16</span>
+                  <span class="site-state-item-count">15</span>
                   <span class="site-state-item-name">分类</span>
                 </a>
               </div>
@@ -798,7 +802,7 @@
     
       <span class="post-meta-item-text">Site words total count&#58;</span>
     
-    <span title="Site words total count">20.3k</span>
+    <span title="Site words total count">21.2k</span>
   
 </div>
 
