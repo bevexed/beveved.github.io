@@ -130,18 +130,18 @@
 
 
 
-<meta name="description" content="介绍 发布 &amp;amp; 订阅 一对多  demo12345678910111213141516171819202122232425262728293031323334353637383940414243444546class Subject &amp;#123;  constructor()&amp;#123;    this.state = 0    this.observers = []  &amp;#125;  g">
+<meta name="description" content="介绍 发布 &amp;amp; 订阅 一对多 主题 和 观察者分离，不是主动触发而是被动监听，两者解耦  demo12345678910111213141516171819202122232425262728293031323334353637383940414243444546class Subject &amp;#123;  constructor()&amp;#123;    this.state = 0    t">
 <meta name="keywords" content="设计模式">
 <meta property="og:type" content="article">
 <meta property="og:title" content="前端设计模式（观察者模式）">
 <meta property="og:url" content="http://blog.bevexed.top/2019/08/26/前端设计模式（观察者模式）/index.html">
 <meta property="og:site_name" content="bev">
-<meta property="og:description" content="介绍 发布 &amp;amp; 订阅 一对多  demo12345678910111213141516171819202122232425262728293031323334353637383940414243444546class Subject &amp;#123;  constructor()&amp;#123;    this.state = 0    this.observers = []  &amp;#125;  g">
+<meta property="og:description" content="介绍 发布 &amp;amp; 订阅 一对多 主题 和 观察者分离，不是主动触发而是被动监听，两者解耦  demo12345678910111213141516171819202122232425262728293031323334353637383940414243444546class Subject &amp;#123;  constructor()&amp;#123;    this.state = 0    t">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-08-26T07:57:26.904Z">
+<meta property="og:updated_time" content="2019-09-05T09:54:11.156Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="前端设计模式（观察者模式）">
-<meta name="twitter:description" content="介绍 发布 &amp;amp; 订阅 一对多  demo12345678910111213141516171819202122232425262728293031323334353637383940414243444546class Subject &amp;#123;  constructor()&amp;#123;    this.state = 0    this.observers = []  &amp;#125;  g">
+<meta name="twitter:description" content="介绍 发布 &amp;amp; 订阅 一对多 主题 和 观察者分离，不是主动触发而是被动监听，两者解耦  demo12345678910111213141516171819202122232425262728293031323334353637383940414243444546class Subject &amp;#123;  constructor()&amp;#123;    this.state = 0    t">
 
 
 
@@ -470,7 +470,7 @@
                   <span class="post-meta-item-text">字数统计&#58;</span>
                 
                 <span title="字数统计">
-                  153
+                  293
                 </span>
               
 
@@ -510,13 +510,23 @@
         <h2 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h2><ul>
 <li>发布 &amp; 订阅</li>
 <li>一对多</li>
+<li>主题 和 观察者分离，不是主动触发而是被动监听，两者解耦</li>
 </ul>
 <h2 id="demo"><a href="#demo" class="headerlink" title="demo"></a>demo</h2><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Subject</span> </span>&#123;</span><br><span class="line">  <span class="keyword">constructor</span>()&#123;</span><br><span class="line">    <span class="keyword">this</span>.state = <span class="number">0</span></span><br><span class="line">    <span class="keyword">this</span>.observers = []</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  getState()&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">this</span>.state</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  setState(state)&#123;</span><br><span class="line">    <span class="keyword">this</span>.state = state</span><br><span class="line">    <span class="keyword">this</span>.notifyAllObservers()</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  notifyAllObservers()&#123;</span><br><span class="line">    <span class="keyword">this</span>.observers.forEach(<span class="function"><span class="params">observer</span> =&gt;</span> &#123;</span><br><span class="line">      observer.update()</span><br><span class="line">    &#125;)</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  attach(observer)&#123;</span><br><span class="line">    <span class="keyword">this</span>.observers.push(observer)</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Observer</span> </span>&#123;</span><br><span class="line">  <span class="keyword">constructor</span>(name, subject)&#123;</span><br><span class="line">    <span class="keyword">this</span>.name = name</span><br><span class="line">    <span class="keyword">this</span>.subject = subject</span><br><span class="line">    <span class="keyword">this</span>.subject.attach(<span class="keyword">this</span>)</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  update()&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">`<span class="subst">$&#123; <span class="keyword">this</span>.name &#125;</span> update, state: <span class="subst">$&#123; <span class="keyword">this</span>.subject.getState() &#125;</span>`</span>);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> s = <span class="keyword">new</span> Subject()</span><br><span class="line"><span class="keyword">let</span> o1 = <span class="keyword">new</span> Observer(<span class="string">'o1'</span>, s)</span><br><span class="line"><span class="keyword">let</span> o2 = <span class="keyword">new</span> Observer(<span class="string">'o2'</span>, s)</span><br><span class="line"></span><br><span class="line">s.setState(<span class="number">1</span>)</span><br><span class="line">s.setState(<span class="number">2</span>)</span><br><span class="line">s.setState(<span class="number">3</span>)</span><br></pre></td></tr></table></figure>
 <h2 id="应用场景"><a href="#应用场景" class="headerlink" title="应用场景"></a>应用场景</h2><ul>
 <li>网页事件绑定</li>
 <li>Promise 的 then</li>
 <li>jQuery callbacks</li>
+<li>vue 和 React 组件声明周期触发</li>
 <li><p>nodejs 自定义事件</p>
+<ul>
+<li><p>使用</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> EventEmitter = <span class="built_in">require</span>(<span class="string">'events'</span>).EventEmitter;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> emitter1 = <span class="keyword">new</span> EventEmitter();</span><br><span class="line"><span class="comment">// 监听 some 事件</span></span><br><span class="line">emitter1.on(<span class="string">'some'</span>, info =&gt;&#123;</span><br><span class="line">  <span class="built_in">console</span>.log(<span class="string">'fn1'</span>, info);</span><br><span class="line">&#125;);</span><br><span class="line"><span class="comment">// 监听 some 事件</span></span><br><span class="line">emitter1.on(<span class="string">'some'</span>, info =&gt;&#123;</span><br><span class="line">  <span class="built_in">console</span>.log(<span class="string">'fn2'</span>, info);</span><br><span class="line">&#125;);</span><br><span class="line"><span class="comment">// 触发 some 事件</span></span><br><span class="line">emitter1.emit(<span class="string">'some'</span>,<span class="string">'xxx'</span>);</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>继承</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> EventEmitter = <span class="built_in">require</span>(<span class="string">'events'</span>).EventEmitter;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Dog</span> <span class="keyword">extends</span> <span class="title">EventEmitter</span> </span>&#123;</span><br><span class="line">  <span class="keyword">constructor</span>(name)&#123;</span><br><span class="line">    <span class="keyword">super</span>()</span><br><span class="line">    <span class="keyword">this</span>.name = name</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> xxx = <span class="keyword">new</span> Dog(<span class="string">'xxx'</span>);</span><br><span class="line">xxx.on(<span class="string">'bark'</span>, () =&gt; &#123;</span><br><span class="line">  <span class="built_in">console</span>.log(<span class="keyword">this</span>.name, <span class="string">'barked-1'</span>);</span><br><span class="line">&#125;)</span><br><span class="line">xxx.on(<span class="string">'bark'</span>, () =&gt; &#123;</span><br><span class="line">  <span class="built_in">console</span>.log(<span class="keyword">this</span>.name, <span class="string">'barked-2'</span>);</span><br><span class="line">&#125;)</span><br><span class="line">xxx.emit(<span class="string">'bark'</span>)</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
 <h3 id="网页事件绑定"><a href="#网页事件绑定" class="headerlink" title="网页事件绑定"></a>网页事件绑定</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$(<span class="string">'#btn1'</span>).click(<span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="built_in">console</span>.log(<span class="number">1</span>);</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
 </li>
 </ul>
@@ -559,6 +569,10 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/09/05/前端设计模式（迭代器模式）/" rel="prev" title="前端设计模式（迭代器模式）">
+                前端设计模式（迭代器模式） <i class="fa fa-chevron-right"></i>
+              </a>
             
           </div>
         </div>
@@ -649,7 +663,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">37</span>
+                  <span class="site-state-item-count">39</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -773,7 +787,7 @@
     
       <span class="post-meta-item-text">Site words total count&#58;</span>
     
-    <span title="Site words total count">22.2k</span>
+    <span title="Site words total count">22.7k</span>
   
 </div>
 
