@@ -2,6 +2,20 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>http://blog.bevexed.top/2019/09/06/nginx%E5%85%A5%E9%97%A8%E6%8C%87%E5%8D%97/</loc>
+    
+    <lastmod>2019-09-06T09:37:04.255Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://blog.bevexed.top/2019/01/29/%E5%AE%89%E8%A3%85%E9%85%8D%E7%BD%AENginx%EF%BC%88ubuntu%EF%BC%89/</loc>
+    
+    <lastmod>2019-09-06T05:51:05.412Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>http://blog.bevexed.top/2019/09/06/%E5%89%8D%E7%AB%AF%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%EF%BC%88%E7%8A%B6%E6%80%81%E6%A8%A1%E5%BC%8F%EF%BC%89/</loc>
     
     <lastmod>2019-09-06T03:00:59.283Z</lastmod>
@@ -124,13 +138,6 @@
     <loc>http://blog.bevexed.top/2019/01/23/documentElement%E4%B8%8Ebody/</loc>
     
     <lastmod>2019-06-12T05:26:34.567Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://blog.bevexed.top/2019/01/29/%E5%AE%89%E8%A3%85%E9%85%8D%E7%BD%AENginx/</loc>
-    
-    <lastmod>2019-06-12T05:24:55.890Z</lastmod>
     
   </url>
   
