@@ -291,26 +291,6 @@
           </a>
         </li>
       
-        
-        <li class="menu-item menu-item-sitemap">
-          <a href="/sitemap.xml" rel="section">
-            
-              <i class="menu-item-icon fa fa-fw fa-sitemap"></i> <br>
-            
-            站点地图
-          </a>
-        </li>
-      
-        
-        <li class="menu-item menu-item-commonweal">
-          <a href="/404/" rel="section">
-            
-              <i class="menu-item-icon fa fa-fw fa-heartbeat"></i> <br>
-            
-            公益404
-          </a>
-        </li>
-      
 
       
         <li class="menu-item menu-item-search">
@@ -521,20 +501,119 @@
       
         
           
-          基本概念
-Generator函数是 ES6 提供的一种异步编程解决方案，语法行为与传统函数不同
-语法上，可以将它理解成一个状态机，封装了多个内部状态
-执行上，他是一个遍历器对象生成函数。
-执行 Generator函数 会返回一个遍历器对象，
-返回的遍历器对象可以依次遍历Generator函数内部的每
-          ...
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2019/05/13/Generator/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
+            <h2 id="基本概念"><a href="#基本概念" class="headerlink" title="基本概念"></a>基本概念</h2><ul>
+<li><code>Generator函数</code>是 ES6 提供的一种异步编程解决方案，语法行为与传统函数不同</li>
+<li>语法上，可以将它理解成一个状态机，封装了多个内部状态</li>
+<li>执行上，他是一个遍历器对象生成函数。<ul>
+<li>执行 Generator函数 会返回一个遍历器对象，</li>
+<li>返回的遍历器对象可以依次遍历Generator函数内部的每一个状态</li>
+</ul>
+</li>
+<li><p>形式上，Generator函数是一个普通函数，但是有两个特征：</p>
+<ol>
+<li>function命令与函数名之间有一个星号</li>
+<li>函数体内部使用 <code>yield</code> 语句来定义不同的内部状态<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 定义 一个 Generator 函数</span></span><br><span class="line"><span class="function"><span class="keyword">function</span>* <span class="title">hellow</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">yield</span> <span class="string">'he'</span>; <span class="comment">// 状态语句</span></span><br><span class="line">  <span class="keyword">yield</span> <span class="string">'ll'</span>;</span><br><span class="line">  <span class="keyword">yield</span> <span class="string">'ow'</span>;</span><br><span class="line">  <span class="keyword">return</span> <span class="string">'ending'</span>; <span class="comment">// 结束语句</span></span><br><span class="line">&#125;</span><br><span class="line">  </span><br><span class="line"><span class="keyword">let</span> hw = hellow();</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+</li>
+<li><p>Generator函数的调用方法和普通函数一样。但是，</p>
+<ol>
+<li>调用后该函数不会执行</li>
+<li>返回的不是函数运行的结果，而是一个指向内部状态的指针对象，也就是遍历器对象（Iterator Object）</li>
+<li>必须调用对象的<code>next</code>方法，使指针移向下一个状态</li>
+<li>每次调用<code>next</code>方法，会返回一个包函<code>value</code>和<code>done</code>两个属性的对象。<ul>
+<li>value：内部状态值</li>
+<li>done：布尔值 ，表示是否遍历结束</li>
+</ul>
+</li>
+</ol>
+</li>
+</ul>
+<h2 id="yield-表达式"><a href="#yield-表达式" class="headerlink" title="yield 表达式"></a>yield 表达式</h2><p><code>yield语句</code>就是暂停标志</p>
+<h3 id="next方法的运行逻辑"><a href="#next方法的运行逻辑" class="headerlink" title="next方法的运行逻辑"></a>next方法的运行逻辑</h3><ol>
+<li>遇到<code>yield</code>就暂停执行后边的操作，并将紧跟其后的表达式的值作为返回对象的value属性值</li>
+<li>下一次调用 <code>next方法</code> 时会继续向下执行，知道遇到下一条<code>yield语句</code></li>
+<li>如果没有遇到新的<code>yield语句</code>就一直运行到函数结束，直到<code>return语句</code>为止，并将<code>return语句</code>后面表达式的值作为返回对象的value属性值</li>
+<li>如果没有<code>return语句</code>则返回undefined</li>
+</ol>
+<h3 id="yield语句与return语句"><a href="#yield语句与return语句" class="headerlink" title="yield语句与return语句"></a>yield语句与return语句</h3><ul>
+<li>两者都返回紧跟在语句后面的表达式的值</li>
+<li>yield语句具有记忆功能，return语句不具有此功能</li>
+<li>一个函数只能执行一次return语句，但是可以执行多条yield语句</li>
+</ul>
+<h3 id="暂缓执行函数"><a href="#暂缓执行函数" class="headerlink" title="暂缓执行函数"></a>暂缓执行函数</h3><p>当<code>Generator函数</code>不包含<code>yield语句</code>时，就变成了一个暂缓执行函数<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span>* <span class="title">f</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="built_in">console</span>.log(<span class="number">1</span>);</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">let</span> g = f(); <span class="comment">// 此时不执行</span></span><br><span class="line">setTimeout(<span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  g.next()  <span class="comment">// 只有调用 next 以后才执行</span></span><br><span class="line">&#125;,<span class="number">3000</span>)</span><br></pre></td></tr></table></figure></p>
+<h3 id="注意事项"><a href="#注意事项" class="headerlink" title="注意事项"></a>注意事项</h3><ul>
+<li><code>yield语句</code>只能用在<code>Generator函数</code>中，用在其他地方会报错</li>
+<li>不可以用在 <code>forEach</code>等方法的回调函数内，可以使用for循环代替</li>
+<li>yield表达式如果在另一个表达式中，必须放在圆括号内</li>
+</ul>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span>* <span class="title">f</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="built_in">console</span>.log(<span class="number">1</span>+(<span class="keyword">yield</span> <span class="number">2</span>));</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>yield表达式作为函数参数或放在赋值表达式的右边可以不加括号</li>
+</ul>
+<h2 id="与Generator接口的关系"><a href="#与Generator接口的关系" class="headerlink" title="与Generator接口的关系"></a>与Generator接口的关系</h2><ol>
+<li>任意一个对象的<code>Symbol.iterator</code>方法等于该对像的遍历器对象生成函数，调用该函数会返回该对象的一个遍历器对象</li>
+<li>由于<code>Generator函数</code>就是遍历器生成函数，所以可以把<code>Generator</code>赋值给对象的<code>Symbol.iterator</code>属性，从而使得该对象具有<code>Iterator接口</code></li>
+</ol>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> myIterable = [];</span><br><span class="line">myIterable[<span class="built_in">Symbol</span>.iterator] = <span class="function"><span class="keyword">function</span>*(<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">yield</span> <span class="number">1</span>;</span><br><span class="line">  <span class="keyword">yield</span> <span class="number">2</span>;</span><br><span class="line">&#125;;</span><br><span class="line"><span class="built_in">console</span>.log([...myIterable]) <span class="comment">// [1, 2]</span></span><br></pre></td></tr></table></figure>
+<ol start="3">
+<li><code>Generator函数</code>执行后，返回一个遍历器对象。该对象本身也具有<code>Symbol.iterator</code>属性，执行后返回自身<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span>* <span class="title">f</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="built_in">console</span>.log(<span class="number">1</span>);</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">let</span> g = f();</span><br><span class="line"><span class="built_in">console</span>.log(g[<span class="built_in">Symbol</span>.iterator] === g); <span class="comment">// true</span></span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<h2 id="next方法的参数"><a href="#next方法的参数" class="headerlink" title="next方法的参数"></a>next方法的参数</h2><ul>
+<li><code>yield语句</code>本身没有返回值，或者说总是返回<code>undefined</code></li>
+<li>next 方法可以带有一个参数，该参数会被当做上一条 <code>yield语句</code>的返回值</li>
+<li>由于 next 方法的参数表示上一条<code>yield语句</code>的返回值，所以第一次使用 next 方法时，传递参数是无效的</li>
+<li>如果希望第一次调用 next 方法时能过输入值，可以在 <code>Generator函数</code> 外再包一层</li>
+</ul>
+<h2 id="for…of循环"><a href="#for…of循环" class="headerlink" title="for…of循环"></a>for…of循环</h2><ul>
+<li>for…of 循环可以自动遍历 <code>Generator函数</code> 生成的 Iterator 对象，且此时不需要调用 next 方法。</li>
+<li>一旦 next 方法的返回对象的 done 属性为 true，for…of循环就会终止，且不包含返回的对象<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span>* <span class="title">f</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">yield</span> <span class="number">1</span>;</span><br><span class="line">  <span class="keyword">yield</span> <span class="number">2</span>;</span><br><span class="line">  <span class="keyword">return</span> <span class="number">3</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">for</span> (<span class="keyword">let</span> v <span class="keyword">of</span> foo())&#123;</span><br><span class="line">  <span class="built_in">console</span>.log(v); <span class="comment">// 1 2 不包含 return语句返回的 3</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h2 id="Generator-prototype-throw"><a href="#Generator-prototype-throw" class="headerlink" title="Generator.prototype.throw()"></a>Generator.prototype.throw()</h2><ul>
+<li><code>Generator函数</code>返回的遍历器对象都有一个 throw 方法，可以在函数体外抛出错误，然后再 Generator函数 内捕获；反过来，<code>Generator函数</code>体内抛出的错误也可以被函数体外的 catch 捕获</li>
+<li>如果 <code>Generator函数</code> 内部没有部署 try…catch 代码块，那么 throw 方法抛出的错误将被外部的 try…catch 代码块捕获</li>
+<li>如果 <code>Generator函数</code> 内部部署了 try…catch 代码块，那么遍历器的 throw 方法抛出的错误不影响下一次遍历，否则遍历会终止</li>
+<li>一旦<code>Genertator函数</code>执行过程中抛出错误，就不会往下执行了，如果此后调用 next 方法，将返回 {value: undefined, done: true} 这个对象</li>
+<li>throw 方法执行后会附带执行下一条 yield 表达式，即附带执行一次 next 方法</li>
+<li>throw 命令与 Generator.prototype.throw()方法互不影响<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> g = <span class="function"><span class="keyword">function</span>*(<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">try</span> &#123;</span><br><span class="line">    <span class="keyword">yield</span> ;</span><br><span class="line">  &#125;<span class="keyword">catch</span> (e) &#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">'内部捕获'</span>,e);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> i = g();</span><br><span class="line">i.next();</span><br><span class="line"><span class="keyword">try</span> &#123;</span><br><span class="line">  i.throw(<span class="string">'a'</span>);</span><br><span class="line">  i.throw(<span class="string">'b'</span>);</span><br><span class="line">&#125;<span class="keyword">catch</span> (e) &#123;</span><br><span class="line">  <span class="built_in">console</span>.log(<span class="string">'外部捕获'</span>,e);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 内部捕获 a</span></span><br><span class="line"><span class="comment">// 外部捕获 b</span></span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h2 id="Generator-prototype-return"><a href="#Generator-prototype-return" class="headerlink" title="Generator.prototype.return()"></a>Generator.prototype.return()</h2><ul>
+<li>该方法返回给定的值,并终结<code>Generator函数</code>的遍历</li>
+<li><p>如果不提供参数，则返回值的 value 属性为 undefined</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span>* <span class="title">f</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">yield</span> <span class="number">1</span>;</span><br><span class="line">  <span class="keyword">yield</span> <span class="number">2</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> g = f();</span><br><span class="line">g.next(); <span class="comment">// &#123;value: 1, done &#125;</span></span><br><span class="line">g.return(<span class="string">'foo'</span>); <span class="comment">// &#123;value: 'foo', done: true&#125;</span></span><br><span class="line">g.next() <span class="comment">// &#123;value: undefined, deone: true&#125;</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>如果<code>Generator函数</code>内部有 try…finally 代码块，那么 return 方法会推迟到 finally 代码块执行完成在执行</p>
+</li>
+</ul>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span>* <span class="title">f</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">yield</span> <span class="number">1</span>;</span><br><span class="line">  <span class="keyword">try</span> &#123;</span><br><span class="line">    <span class="keyword">yield</span> <span class="number">2</span>;</span><br><span class="line">    <span class="keyword">yield</span> <span class="number">3</span>;</span><br><span class="line">  &#125; <span class="keyword">catch</span> (e) &#123;</span><br><span class="line">    <span class="keyword">yield</span> <span class="number">4</span>;</span><br><span class="line">    <span class="keyword">yield</span> <span class="number">5</span>;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">yield</span> <span class="number">6</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> g = f();</span><br><span class="line">g.next(); <span class="comment">// &#123; value: 1, done: false &#125;</span></span><br><span class="line">g.next(); <span class="comment">// &#123; value: 2, done: false&#125;</span></span><br><span class="line">g.return(); <span class="comment">// &#123; value: 4, done: false&#125;</span></span><br><span class="line">g.next(); <span class="comment">// &#123; value: 5, done: false&#125;</span></span><br><span class="line">g.next(); <span class="comment">// &#123; value: 7, done: true&#125;</span></span><br></pre></td></tr></table></figure>
+<h2 id="yield-表达式-1"><a href="#yield-表达式-1" class="headerlink" title="yield* 表达式"></a>yield* 表达式</h2><ul>
+<li><p>如果在一个<code>Generator函数</code>内调用另一个<code>Generator函数</code>，默认情况下是没有效果的</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span>* <span class="title">a</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">yield</span> <span class="string">'a'</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span>* <span class="title">b</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  a();</span><br><span class="line">  <span class="keyword">yield</span> <span class="string">'b'</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> (<span class="keyword">let</span> v <span class="keyword">of</span> b())&#123;</span><br><span class="line">  <span class="built_in">console</span>.log(v); <span class="comment">// 'b'</span></span><br><span class="line">&#125; </span><br><span class="line"><span class="comment">// a 和 b 都是 Generator函数 在b中调用a不会生效</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p><code>yield*</code>，用来在一个<code>Generator函数</code>里执行另一个<code>Generator函数</code></p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span>* <span class="title">a</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">yield</span> <span class="string">'a'</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span>* <span class="title">b</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">yield</span>* a();</span><br><span class="line">  <span class="keyword">yield</span> <span class="string">'b'</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> (<span class="keyword">let</span> v <span class="keyword">of</span> b())&#123;</span><br><span class="line">  <span class="built_in">console</span>.log(v); <span class="comment">// 'a' 'b'</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>如果 yield 命令后面跟的是一个遍历器对象，那么需要在 yield 命令后面加上星号，表明返回的是一个遍历器对象</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span>* <span class="title">inner</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">yield</span> <span class="string">'hellow'</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span>* <span class="title">outer1</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">yield</span> <span class="string">'open'</span>;</span><br><span class="line">  <span class="keyword">yield</span> inner();</span><br><span class="line">  <span class="keyword">yield</span> <span class="string">'colse'</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> gen = outer1();</span><br><span class="line">gen.next().value; <span class="comment">// 'open'</span></span><br><span class="line">gen.next().value; <span class="comment">// 返回一个遍历器对象</span></span><br><span class="line">gen.next().value; <span class="comment">// 'colse'</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span>* <span class="title">outer2</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">yield</span> <span class="string">'open'</span>;</span><br><span class="line">  <span class="keyword">yield</span>* inner();</span><br><span class="line">  <span class="keyword">yield</span> <span class="string">'close'</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">let</span> gen2 = outer2();</span><br><span class="line">gen2.next().value; <span class="comment">// 'open'</span></span><br><span class="line">gen2.next().value; <span class="comment">// 'hellow'</span></span><br><span class="line">gen2.next().value; <span class="comment">// 'close'</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>yield* 后面的<code>Generator语句</code>没有 return 语句时等同于在<code>Generator函数</code>内部部署了一个 <code>for...of</code> 循环</p>
+</li>
+<li>yield<em> 后面的<code>Generator语句</code>有 return 语句时，需要用 `let value = yield</em> iterator` 的形式获取 return语句的值</li>
+<li>如果被代理的<code>Generator语句</code>有 return 语句，那么可以向代理他的<code>Generator函数</code>返回数据</li>
+<li>任何数据只要有<code>Iterator</code>接口，就可以被<code>yield*</code>遍历<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> a = (<span class="function"><span class="keyword">function</span>*(<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">yield</span> <span class="string">'hellow'</span>;</span><br><span class="line">  <span class="keyword">yield</span>* <span class="string">'he'</span>;</span><br><span class="line">  <span class="keyword">yield</span>* [<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>] </span><br><span class="line">&#125;());</span><br><span class="line"></span><br><span class="line">a.next().value; <span class="comment">// 'hellow'</span></span><br><span class="line">a.next().value; <span class="comment">// 'h'</span></span><br><span class="line">a.next().value; <span class="comment">// 'e'</span></span><br><span class="line">a.next().value; <span class="comment">// '1'</span></span><br><span class="line">a.next().value; <span class="comment">// '2'</span></span><br><span class="line">a.next().value; <span class="comment">// '3'</span></span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h2 id="应用"><a href="#应用" class="headerlink" title="应用"></a>应用</h2><ul>
+<li>异步操作的同步化表达</li>
+<li>控制流管理</li>
+<li>部署 <code>Iterator</code> 接口</li>
+<li>作为数据结构</li>
+</ul>
+
+          
         
       
     </div>
@@ -726,21 +805,38 @@ Generator函数是 ES6 提供的一种异步编程解决方案，语法行为与
       
         
           
-          函数节流 throttle
-限制一个函数在一定时间内只执行一次
-上拉加载
-屏幕滚动
-高频点击
+            <h2 id="函数节流-throttle"><a href="#函数节流-throttle" class="headerlink" title="函数节流 throttle"></a>函数节流 <code>throttle</code></h2><ul>
+<li>限制一个函数在一定时间内只执行一次</li>
+<li>上拉加载</li>
+<li>屏幕滚动</li>
+<li>高频点击</li>
+</ul>
+<h3 id="实现"><a href="#实现" class="headerlink" title="实现"></a>实现</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> _.throttle = <span class="function">(<span class="params">func, wait</span>) =&gt;</span> &#123;</span><br><span class="line">  <span class="keyword">let</span> timer;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">return</span> <span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">    <span class="keyword">if</span> (timer) &#123;</span><br><span class="line">      <span class="keyword">return</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    timer = setTimeout(<span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">      func();</span><br><span class="line">      timer = <span class="literal">null</span>;</span><br><span class="line">    &#125;, wait);</span><br><span class="line">  &#125;;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<h2 id="函数防抖-debounce"><a href="#函数防抖-debounce" class="headerlink" title="函数防抖 debounce"></a>函数防抖 <code>debounce</code></h2><ul>
+<li>事件触发后 <code>n秒</code> 内只执行一次，如果 <code>n秒</code> 内再次触发事件，则重新计算函数执行时间</li>
+<li>一个动作连续触发，只执行最后一次</li>
+</ul>
+<h3 id="应用场景"><a href="#应用场景" class="headerlink" title="应用场景"></a>应用场景</h3><ul>
+<li>搜索</li>
+<li>手机号、邮箱验证</li>
+<li>窗口改变</li>
+</ul>
+<h3 id="实现-1"><a href="#实现-1" class="headerlink" title="实现"></a>实现</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> _.debounce = <span class="function">(<span class="params">func, wait</span>) =&gt;</span> &#123;</span><br><span class="line">  <span class="keyword">let</span> timer;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">return</span> <span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">    clearTimeout(timer);</span><br><span class="line">    timer = setTimeout(func, wait);</span><br><span class="line">  &#125;;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<h2 id="异同比较"><a href="#异同比较" class="headerlink" title="异同比较"></a>异同比较</h2><h3 id="相同点"><a href="#相同点" class="headerlink" title="相同点"></a>相同点</h3><ul>
+<li>都可以通过 <code>setTimeout</code> 实现</li>
+<li>都是降低回调执行频率，节省计算资源</li>
+</ul>
+<h3 id="不同点"><a href="#不同点" class="headerlink" title="不同点"></a>不同点</h3><ul>
+<li>函数防抖，在一段连续操作结束后，处理回调函数，利用 <code>clearTimeout</code> 和 <code>setTimeout</code> 实现。</li>
+<li>函数节流，在一段连续操作中，每一段时间只执行一次，频率较高的事件中使用来提高性能。</li>
+<li>函数防抖，关注一段时间连续触发，只在最后一次执行</li>
+<li>函数节流，侧重一段时间只执行一次</li>
+</ul>
+<h2 id="参考文章"><a href="#参考文章" class="headerlink" title="参考文章"></a>参考文章</h2><ul>
+<li><a href="https://www.jianshu.com/p/f9f6b637fd6c" target="_blank" rel="noopener">浅析函数防抖与函数节流</a></li>
+</ul>
 
-实现1234567891011121314const _.throttle = (func, wait) =&gt; &#123;  let timer;  return () =&gt; &#123; 
-          ...
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2019/04/26/函数节流与函数防抖/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
+          
         
       
     </div>
@@ -932,27 +1028,232 @@ Generator函数是 ES6 提供的一种异步编程解决方案，语法行为与
       
         
           
-          特征NoSQL 数据库
-不支持 SQL 查询语句
-不属于 关系型数据库
-
-键值对存储
-采用对象仓库（object store）存放数据
-所有数据都可以直接存入，包括 JavaScript对象
-每一条数据都有 独一无二的 主键对应，重复会报错
-
-异步
-不会锁死浏览器
-
-支持事务（transaction
-          ...
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2019/04/02/indexedDB/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
+            <h2 id="特征"><a href="#特征" class="headerlink" title="特征"></a>特征</h2><h3 id="NoSQL-数据库"><a href="#NoSQL-数据库" class="headerlink" title="NoSQL 数据库"></a>NoSQL 数据库</h3><ul>
+<li>不支持 SQL 查询语句</li>
+<li>不属于 关系型数据库</li>
+</ul>
+<h3 id="键值对存储"><a href="#键值对存储" class="headerlink" title="键值对存储"></a>键值对存储</h3><ul>
+<li>采用对象仓库（object store）存放数据</li>
+<li>所有数据都可以直接存入，包括 JavaScript对象</li>
+<li>每一条数据都有 独一无二的 主键对应，重复会报错</li>
+</ul>
+<h3 id="异步"><a href="#异步" class="headerlink" title="异步"></a>异步</h3><ul>
+<li>不会锁死浏览器</li>
+</ul>
+<h3 id="支持事务（transaction）"><a href="#支持事务（transaction）" class="headerlink" title="支持事务（transaction）"></a>支持事务（transaction）</h3><ul>
+<li>只要一步失败，整个事务取消，数据库回滚到事务发生之前的状态</li>
+</ul>
+<h3 id="同源限制"><a href="#同源限制" class="headerlink" title="同源限制"></a>同源限制</h3><ul>
+<li>每一个数据库都有一个与之对应的域名</li>
+<li>不能跨域访问数据库</li>
+</ul>
+<h3 id="存储空间大"><a href="#存储空间大" class="headerlink" title="存储空间大"></a>存储空间大</h3><ul>
+<li>一般 不小于250M</li>
+</ul>
+<h3 id="支持二进制存储"><a href="#支持二进制存储" class="headerlink" title="支持二进制存储"></a>支持二进制存储</h3><ul>
+<li>可以存储 ArrayBuffer对象 和 Blob对象</li>
+</ul>
+<h2 id="基本概念"><a href="#基本概念" class="headerlink" title="基本概念"></a>基本概念</h2><ul>
+<li>数据库：IDBDatabase 对象</li>
+<li>对象仓库：IDBObjectStore 对象</li>
+<li>索引： IDBIndex 对象</li>
+<li>事务： IDBTransaction 对象</li>
+<li>操作请求：IDBRequest 对象</li>
+<li>指针：IDBCursor 对象</li>
+<li>主键集合：IDBKeyRange 对象</li>
+</ul>
+<h3 id="数据库"><a href="#数据库" class="headerlink" title="数据库"></a>数据库</h3><ul>
+<li>数据库是一些列相关数据的容器。</li>
+<li>每个域名（协议+域名+端口）都可以创建任意多个数据库</li>
+<li>IndexedDB 数据库有版本的概念,同一时间只能有一个版本的数据库存在。</li>
+<li>修改数据库结构（新增或删除表、索引或者主键），只能通过升级数据库版本完成。</li>
+</ul>
+<h3 id="对象仓库"><a href="#对象仓库" class="headerlink" title="对象仓库"></a>对象仓库</h3><ul>
+<li>每个数据库包涵若干个对象仓库，类似于关系数据库中的表格。</li>
+</ul>
+<h3 id="索引"><a href="#索引" class="headerlink" title="索引"></a>索引</h3><ul>
+<li>为了加快数据检索，在对象仓库里，为不同属性建立索引。</li>
+</ul>
+<h3 id="事务"><a href="#事务" class="headerlink" title="事务"></a>事务</h3><ul>
+<li>数据记录的读写和删除，倒要通过事务完成。</li>
+<li>事务对象提供 error、abort、complete 三个事件，用来监听操作结果。</li>
+</ul>
+<h3 id="数据记录"><a href="#数据记录" class="headerlink" title="数据记录"></a>数据记录</h3><ul>
+<li>对象仓库保存的是数据记录。</li>
+<li>每条记录类似于关系型数据库的行，但是只有主键和数据体两个部分。</li>
+<li>主键用来建立默认的索引，必须是不同的，否则会报错<ul>
+<li>主键可以是数据记录里面的一个属性，也可以是一个递增的整数编号</li>
+</ul>
+</li>
+</ul>
+<h2 id="操作"><a href="#操作" class="headerlink" title="操作"></a>操作</h2><h3 id="打开数据库-indexedDB-open"><a href="#打开数据库-indexedDB-open" class="headerlink" title="打开数据库 indexedDB.open()"></a>打开数据库 <code>indexedDB.open()</code></h3><ul>
+<li><p>参数1：数据库名字</p>
+<ul>
+<li>指定数据库不存在，新建数据库</li>
+</ul>
+</li>
+<li><p>参数2：数据库版本</p>
+<ul>
+<li>新建数据库版本默认为 1</li>
+</ul>
+</li>
+</ul>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> request = <span class="built_in">window</span>.indexedDB.open(<span class="string">'databaseName'</span>, version);</span><br></pre></td></tr></table></figure>
+<ul>
+<li>返回一个 IDBRequest 对象<ul>
+<li>该对象通过 error 、 success 、 upgradeneeded 三种事件处理打开数据库的操作结果<h4 id="error"><a href="#error" class="headerlink" title="error"></a>error</h4><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">request.onerror = <span class="function"><span class="keyword">function</span> (<span class="params">event</span>) </span>&#123;</span><br><span class="line">  <span class="built_in">console</span>.log(<span class="string">'数据库打开报错'</span>, event);</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+</ul>
+<h4 id="success"><a href="#success" class="headerlink" title="success"></a>success</h4><ul>
+<li>通过request对象的result属性拿到数据库对象。</li>
+</ul>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> db;</span><br><span class="line"></span><br><span class="line">request.onsuccess = <span class="function"><span class="keyword">function</span> (<span class="params">event</span>) </span>&#123;</span><br><span class="line">  db = request.result;</span><br><span class="line">  <span class="built_in">console</span>.log(<span class="string">'数据库打开成功'</span>);</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<h4 id="upgradeneeded"><a href="#upgradeneeded" class="headerlink" title="upgradeneeded"></a>upgradeneeded</h4><ul>
+<li>当指定的版本号大于 实际操作的版本号，触发该事件。</li>
+<li>通过事件对象的target.result属性，拿到数据库实例。<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> db;</span><br><span class="line"></span><br><span class="line">request.onupgradeneeded = <span class="function"><span class="keyword">function</span> (<span class="params">event</span>) </span>&#123;</span><br><span class="line">  db = event.target.result;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h3 id="新建数据库"><a href="#新建数据库" class="headerlink" title="新建数据库"></a>新建数据库</h3><ul>
+<li>新建数据库和打开数据库是同一操作</li>
+<li>打开数据库后的后续操作主要在 upgradeneeded 中操作</li>
+</ul>
+<h4 id="新建对象仓库-createObjectStore"><a href="#新建对象仓库-createObjectStore" class="headerlink" title="新建对象仓库 createObjectStore()"></a>新建对象仓库 createObjectStore()</h4><ul>
+<li><p>参数1：表格名字</p>
+</li>
+<li><p>参数2：主键配置</p>
+<ul>
+<li>{ autoIncrement: true } // IndexedDB 自动生成主键。</li>
+<li>{ keyPath: ‘id’ } // 自定义主键为 ‘id’</li>
+</ul>
+</li>
+</ul>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> db</span><br><span class="line">request.onupgradeneeded = <span class="function"><span class="keyword">function</span>(<span class="params">event</span>) </span>&#123;</span><br><span class="line">  db = event.target.result;</span><br><span class="line">  <span class="keyword">let</span> objectStore;</span><br><span class="line">  <span class="comment">// 检测表格是否 存在</span></span><br><span class="line">   <span class="keyword">if</span> (!db.objectStoreNames.contains(<span class="string">'person'</span>)) &#123;</span><br><span class="line">     <span class="comment">// 新建一张叫做 person 的表格 ，主键是 id</span></span><br><span class="line">     objectStore = db.createObjectStore(<span class="string">'person'</span>, &#123; <span class="attr">keyPath</span>: <span class="string">'id'</span> &#125;);</span><br><span class="line">   &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="创建索引-createIndex"><a href="#创建索引-createIndex" class="headerlink" title="创建索引 createIndex()"></a>创建索引 createIndex()</h4><ul>
+<li><p>参数1：索引名称</p>
+</li>
+<li><p>参数2：索引所在属性</p>
+</li>
+<li><p>参数1：配置对象</p>
+<ul>
+<li>{ unique: false } // 该属性是否包涵重复的值<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">request.onupgradeneeded = <span class="function"><span class="keyword">function</span>(<span class="params">event</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">let</span> db = event.target.result;</span><br><span class="line">  <span class="keyword">let</span> objectStore = db.createObjectStore(<span class="string">'person'</span>, &#123; <span class="attr">keyPath</span>: <span class="string">'id'</span> &#125;);</span><br><span class="line">  objectStore.createIndex(<span class="string">'name'</span>, <span class="string">'name'</span>, &#123; <span class="attr">unique</span>: <span class="literal">false</span> &#125;);</span><br><span class="line">  objectStore.createIndex(<span class="string">'email'</span>, <span class="string">'email'</span>, &#123; <span class="attr">unique</span>: <span class="literal">true</span> &#125;);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="新增数据"><a href="#新增数据" class="headerlink" title="新增数据"></a>新增数据</h3><ul>
+<li>向对象仓库写入数据记录</li>
+<li>需要通过新建事务完成<ul>
+<li>新建时必须指定 表格名城 和 操作模式（‘只读’、‘读写’）</li>
+</ul>
+</li>
+<li>新建事务后 通过 IDBTransaction.objectStore(name) 方法，拿到 IDBObjectStore 对象</li>
+<li>通过 add() 方法向表格 写入数据</li>
+<li>写入操作是一个 异步操作，通过监听链接对象的 <code>success</code> 和 <code>error</code> 事件，判断是否写入成功</li>
+</ul>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">add</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">let</span> request = db.transaction([<span class="string">'person'</span>], <span class="string">'readwrite'</span>)</span><br><span class="line">    .objectStore(<span class="string">'person'</span>)</span><br><span class="line">    .add(&#123; <span class="attr">id</span>: <span class="number">1</span>, <span class="attr">name</span>: <span class="string">'张三'</span>, <span class="attr">age</span>: <span class="number">24</span>, <span class="attr">email</span>: <span class="string">'zhangsan@example.com'</span> &#125;);</span><br><span class="line"></span><br><span class="line">  request.onsuccess = <span class="function"><span class="keyword">function</span> (<span class="params">event</span>) </span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">'数据写入成功'</span>, event);</span><br><span class="line">  &#125;;</span><br><span class="line"></span><br><span class="line">  request.onerror = <span class="function"><span class="keyword">function</span> (<span class="params">event</span>) </span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">'数据写入失败'</span>, event);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="读取数据"><a href="#读取数据" class="headerlink" title="读取数据"></a>读取数据</h3><ul>
+<li>读取数据也通过事务完成<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">read</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">   <span class="keyword">let</span> transaction = db.transaction([<span class="string">'person'</span>]);</span><br><span class="line">   <span class="keyword">let</span> objectStore = transaction.objectStore(<span class="string">'person'</span>);</span><br><span class="line">   <span class="keyword">let</span> request = objectStore.get(<span class="number">1</span>);</span><br><span class="line"></span><br><span class="line">   request.onerror = <span class="function"><span class="keyword">function</span>(<span class="params">event</span>) </span>&#123;</span><br><span class="line">     <span class="built_in">console</span>.log(<span class="string">'事务失败'</span>);</span><br><span class="line">   &#125;;</span><br><span class="line"></span><br><span class="line">   request.onsuccess = <span class="function"><span class="keyword">function</span>(<span class="params">event</span>) </span>&#123;</span><br><span class="line">      <span class="keyword">if</span> (request.result) &#123;</span><br><span class="line">        <span class="built_in">console</span>.log(<span class="string">'Name: '</span> + request.result.name);</span><br><span class="line">        <span class="built_in">console</span>.log(<span class="string">'Age: '</span> + request.result.age);</span><br><span class="line">        <span class="built_in">console</span>.log(<span class="string">'Email: '</span> + request.result.email);</span><br><span class="line">      &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        <span class="built_in">console</span>.log(<span class="string">'未获得数据记录'</span>);</span><br><span class="line">      &#125;</span><br><span class="line">   &#125;;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h3 id="遍历数据-openCursor"><a href="#遍历数据-openCursor" class="headerlink" title="遍历数据 openCursor()"></a>遍历数据 openCursor()</h3><ul>
+<li>遍历数据表格的所有记录，要使用指针对象 IDBCursor</li>
+<li>openCursor() 方法是一个异步操作，需要监听 success 事件返回的结果<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">readAll</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">let</span> objectStore = db.transaction(<span class="string">'person'</span>).objectStore(<span class="string">'person'</span>);</span><br><span class="line"></span><br><span class="line">   objectStore.openCursor().onsuccess = <span class="function"><span class="keyword">function</span> (<span class="params">event</span>) </span>&#123;</span><br><span class="line">     <span class="keyword">let</span> cursor = event.target.result;</span><br><span class="line"></span><br><span class="line">     <span class="keyword">if</span> (cursor) &#123;</span><br><span class="line">       <span class="built_in">console</span>.log(<span class="string">'Id: '</span> + cursor.key);</span><br><span class="line">       <span class="built_in">console</span>.log(<span class="string">'Name: '</span> + cursor.value.name);</span><br><span class="line">       <span class="built_in">console</span>.log(<span class="string">'Age: '</span> + cursor.value.age);</span><br><span class="line">       <span class="built_in">console</span>.log(<span class="string">'Email: '</span> + cursor.value.email);</span><br><span class="line">       cursor.continue();</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">      <span class="built_in">console</span>.log(<span class="string">'没有更多数据了！'</span>);</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h3 id="更新数据-IDBObject-put"><a href="#更新数据-IDBObject-put" class="headerlink" title="更新数据 IDBObject.put()"></a>更新数据 IDBObject.put()</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">update</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">let</span> request = db.transaction([<span class="string">'person'</span>], <span class="string">'readwrite'</span>)</span><br><span class="line">    .objectStore(<span class="string">'person'</span>)</span><br><span class="line">    .put(&#123; <span class="attr">id</span>: <span class="number">1</span>, <span class="attr">name</span>: <span class="string">'李四'</span>, <span class="attr">age</span>: <span class="number">35</span>, <span class="attr">email</span>: <span class="string">'lisi@example.com'</span> &#125;);</span><br><span class="line"></span><br><span class="line">  request.onsuccess = <span class="function"><span class="keyword">function</span> (<span class="params">event</span>) </span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">'数据更新成功'</span>);</span><br><span class="line">  &#125;;</span><br><span class="line"></span><br><span class="line">  request.onerror = <span class="function"><span class="keyword">function</span> (<span class="params">event</span>) </span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">'数据更新失败'</span>);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="删除数据-openCursor"><a href="#删除数据-openCursor" class="headerlink" title="删除数据 openCursor()"></a>删除数据 openCursor()</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">remove</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">let</span> request = db.transaction([<span class="string">'person'</span>], <span class="string">'readwrite'</span>)</span><br><span class="line">    .objectStore(<span class="string">'person'</span>)</span><br><span class="line">    .delete(<span class="number">1</span>);</span><br><span class="line"></span><br><span class="line">  request.onsuccess = <span class="function"><span class="keyword">function</span> (<span class="params">event</span>) </span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">'数据删除成功'</span>);</span><br><span class="line">  &#125;;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="使用索引"><a href="#使用索引" class="headerlink" title="使用索引"></a>使用索引</h3><ul>
+<li>索引的意义在于，可以让你搜索任意字段，也就是说从任意字段拿到数据记录</li>
+</ul>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">objectStore.createIndex(<span class="string">'name'</span>, <span class="string">'name'</span>, &#123; <span class="attr">unique</span>: <span class="literal">false</span> &#125;);</span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> transaction = db.transaction([<span class="string">'person'</span>], <span class="string">'readonly'</span>);</span><br><span class="line"><span class="keyword">let</span> store = transaction.objectStore(<span class="string">'person'</span>);</span><br><span class="line"><span class="keyword">let</span> index = store.index(<span class="string">'name'</span>);</span><br><span class="line"><span class="keyword">let</span> request = index.get(<span class="string">'李四'</span>);</span><br><span class="line"></span><br><span class="line">request.onsuccess = <span class="function"><span class="keyword">function</span> (<span class="params">e</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">let</span> result = e.target.result;</span><br><span class="line">  <span class="keyword">if</span> (result) &#123;</span><br><span class="line">    <span class="comment">// ...</span></span><br><span class="line">  &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">    <span class="comment">// ...</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="indexedDB-对象"><a href="#indexedDB-对象" class="headerlink" title="indexedDB 对象"></a>indexedDB 对象</h2><ul>
+<li>浏览器提供的原生对象</li>
+</ul>
+<h3 id="indexedDB-open"><a href="#indexedDB-open" class="headerlink" title="indexedDB.open()"></a>indexedDB.open()</h3><ul>
+<li>打开数据库</li>
+<li>异步操作</li>
+<li>立即返回一个 IDBOpenDBRequest 对象</li>
+</ul>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 打开一个名为 test 版本为 1 的数据库，如果数据库不存在则创建该数据库</span></span><br><span class="line"><span class="keyword">let</span> openRequest = <span class="built_in">window</span>.indexedDB.open(<span class="string">'test'</span>, <span class="number">1</span>);</span><br></pre></td></tr></table></figure>
+<h4 id="参数"><a href="#参数" class="headerlink" title="参数"></a>参数</h4><ul>
+<li><p>参数1：数据库名称</p>
+<ul>
+<li>格式为字符串，不可省略</li>
+</ul>
+</li>
+<li><p>参数2：数据库版本</p>
+<ul>
+<li>大于 0 的正整数 ，0 会报错</li>
+<li>该参数大于当前版本，会触发数据库升级</li>
+<li>该参数可以省略，如果数据库已存在，打开最新版本数据库；如果数据库不存在，创建该版本的数据库，默认版本为 1</li>
+</ul>
+</li>
+</ul>
+<h4 id="回调事件"><a href="#回调事件" class="headerlink" title="回调事件"></a>回调事件</h4><ul>
+<li>success：打开成功</li>
+<li>error：打开失败</li>
+<li>upgradeneeded：第一次打开该数据库，或数据库版本发生变化</li>
+<li>blocked：上一次的数据库连接还未关闭<blockquote>
+<p>第一次打开数据库，会先触发 upgradeneeded 事件，然后触发 success 事件<br>success 事件发生后，从 openRequest.result 属性可以拿到已经打开的 IndexedDB 数据库对象 </p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> openRequest = indexedDB.open(<span class="string">'test'</span>, <span class="number">1</span>);</span><br><span class="line"><span class="keyword">let</span> db;</span><br><span class="line"></span><br><span class="line">openRequest.onupgradeneeded = <span class="function"><span class="keyword">function</span> (<span class="params">e</span>) </span>&#123;</span><br><span class="line">  <span class="built_in">console</span>.log(<span class="string">'Upgrading...'</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">openRequest.onsuccess = <span class="function"><span class="keyword">function</span> (<span class="params">e</span>) </span>&#123;</span><br><span class="line">  <span class="built_in">console</span>.log(<span class="string">'Success!'</span>);</span><br><span class="line">  db = openRequest.result;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">openRequest.onerror = <span class="function"><span class="keyword">function</span> (<span class="params">e</span>) </span>&#123;</span><br><span class="line">  <span class="built_in">console</span>.log(<span class="string">'Error'</span>);</span><br><span class="line">  <span class="built_in">console</span>.log(e);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</blockquote>
+</li>
+</ul>
+<h3 id="indexedDB-deleteDatabase"><a href="#indexedDB-deleteDatabase" class="headerlink" title="indexedDB.deleteDatabase()"></a>indexedDB.deleteDatabase()</h3><ul>
+<li>用于删除一个数据库</li>
+<li>立即返回一个 IDBOpenDBRequest 对象，然后对数据库执行异步删除</li>
+<li>删除不存在的数据库时，不会报错</li>
+<li>当调用该方法后，当前数据的其他已经打开的连接都会接收到 versionchange 事件</li>
+</ul>
+<h4 id="参数-1"><a href="#参数-1" class="headerlink" title="参数"></a>参数</h4><ul>
+<li>数据库名字</li>
+</ul>
+<h4 id="回调事件-1"><a href="#回调事件-1" class="headerlink" title="回调事件"></a>回调事件</h4><ul>
+<li>success：删除成功</li>
+<li>error：删除失败<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> DBDeleteRequest = <span class="built_in">window</span>.indexedDB.deleteDatabase(<span class="string">'demo'</span>);</span><br><span class="line"></span><br><span class="line">DBDeleteRequest.onerror = <span class="function"><span class="keyword">function</span> (<span class="params">event</span>) </span>&#123;</span><br><span class="line">  <span class="built_in">console</span>.log(<span class="string">'Error'</span>);</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">DBDeleteRequest.onsuccess = <span class="function"><span class="keyword">function</span> (<span class="params">event</span>) </span>&#123;</span><br><span class="line">  <span class="built_in">console</span>.log(<span class="string">'success'</span>);</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h3 id="indexedDB，cmp"><a href="#indexedDB，cmp" class="headerlink" title="indexedDB，cmp()"></a>indexedDB，cmp()</h3><ul>
+<li>比较两个值是否为 indexedDB 的相同的主键。</li>
+<li>返回一个整数，表示比较的结果<ul>
+<li>0 ：相同 </li>
+<li>1： 第一个主键大于第二个主键</li>
+<li>-1： 第一个主键小于第二个主键<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">window</span>.indexedDB.cmp(<span class="number">1</span>, <span class="number">2</span>); <span class="comment">// -1</span></span><br><span class="line"><span class="comment">// 注意，这个方法不能用来比较任意的 JavaScript 值。如果参数是布尔值或对象，它会报错。</span></span><br><span class="line"><span class="built_in">window</span>.indexedDB.cmp(<span class="number">1</span>, <span class="literal">true</span>); <span class="comment">// 报错</span></span><br><span class="line"><span class="built_in">window</span>.indexedDB.cmp(&#123;&#125;, &#123;&#125;) <span class="comment">// 报错</span></span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="IDBRequest-对象"><a href="#IDBRequest-对象" class="headerlink" title="IDBRequest 对象"></a>IDBRequest 对象</h2><ul>
+<li>表示打开的数据库连接</li>
+<li>indexedDB.open() 和 indexedDB.deleteDatabase() 方法会返回这个对象</li>
+<li>数据库的操作都是通过此对象完成</li>
+<li>对象的所有操作都是 <code>异步</code> 完成<ul>
+<li>通过 readyState 属性判断是否完成<ul>
+<li>pending：正在进行</li>
+<li>done：完成，有可能失败也有可成功</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>操作完成，触发 error 或 success 事件<ul>
+<li>可以通过 result 属性 和 error 属性 拿到操作结果<ul>
+<li>如果在 pending 状态去读取这两个属性的值会报错<h3 id="属性"><a href="#属性" class="headerlink" title="属性"></a>属性</h3></li>
+</ul>
+</li>
+</ul>
+</li>
+<li>IDBRequest.readyState：等于pending表示操作正在进行，等于done表示操作正在完成。</li>
+<li>IDBRequest.result：返回请求的结果。如果请求失败、结果不可用，读取该属性会报错。</li>
+<li>IDBRequest.error：请求失败时，返回错误对象。</li>
+<li>IDBRequest.source：返回请求的来源（比如索引对象或 ObjectStore）。</li>
+<li>IDBRequest.transaction：返回当前请求正在进行的事务，如果不包含事务，返回null。</li>
+<li>IDBRequest.onsuccess：指定success事件的监听函数。</li>
+<li>IDBRequest.onerror：指定error事件的监听函数。</li>
+</ul>
+<h2 id="插件"><a href="#插件" class="headerlink" title="插件"></a>插件</h2><h3 id="level-js"><a href="#level-js" class="headerlink" title="level.js"></a>level.js</h3>
+          
         
       
     </div>
@@ -1144,21 +1445,15 @@ Generator函数是 ES6 提供的一种异步编程解决方案，语法行为与
       
         
           
-          browser-sync
-浏览器同步工具
+            <h1 id="browser-sync"><a href="#browser-sync" class="headerlink" title="browser-sync"></a>browser-sync</h1><blockquote>
+<p>浏览器同步工具</p>
+</blockquote>
+<h2 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&gt; npm i browser-sync -g</span><br></pre></td></tr></table></figure>
+<h2 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&gt; browser-sync init</span><br></pre></td></tr></table></figure>
+<h3 id="普通使用"><a href="#普通使用" class="headerlink" title="普通使用"></a>普通使用</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&gt; browser-sync start --server --files <span class="string">"**"</span></span><br></pre></td></tr></table></figure>
+<h3 id="跨域"><a href="#跨域" class="headerlink" title="跨域"></a>跨域</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&gt; browser-sync start --proxy <span class="string">"localhost:8080"</span> --files <span class="string">"**"</span></span><br></pre></td></tr></table></figure>
 
-安装1&gt; npm i browser-sync -g
-使用1&gt; browser-sync init
-普通使用1&gt; browser-sync start --server --files "**"
-跨域1&gt; browser-sync 
-          ...
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2019/04/02/browser-sync/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
+          
         
       
     </div>
@@ -1350,16 +1645,11 @@ Generator函数是 ES6 提供的一种异步编程解决方案，语法行为与
       
         
           
-          安装1&gt; npm i -S rc-queue-anim
-使用harmony12345678910import QueueAnim from 'rc-queue-anim';ReactDOM.render(  &lt;QueueAnim delay=&#123;300&#125; classNa
-          ...
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2019/02/18/rc-queue-anim的使用/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
+            <h2 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&gt; npm i -S rc-queue-anim</span><br></pre></td></tr></table></figure>
+<h2 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h2><figure class="highlight jsx"><figcaption><span>harmony</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> QueueAnim <span class="keyword">from</span> <span class="string">'rc-queue-anim'</span>;</span><br><span class="line"></span><br><span class="line">ReactDOM.render(</span><br><span class="line">  &lt;QueueAnim delay=&#123;<span class="number">300</span>&#125; className=<span class="string">"queue-simple"</span>&gt;</span><br><span class="line">    &lt;div key=<span class="string">"a"</span>&gt;依次进场&lt;<span class="regexp">/div&gt;</span></span><br><span class="line"><span class="regexp">    &lt;div key="b"&gt;依次进场&lt;/</span>div&gt;</span><br><span class="line">    &lt;div key=<span class="string">"c"</span>&gt;依次进场&lt;<span class="regexp">/div&gt;</span></span><br><span class="line"><span class="regexp">    &lt;div key="d"&gt;依次进场&lt;/</span>div&gt;</span><br><span class="line">  &lt;<span class="regexp">/QueueAnim&gt;</span></span><br><span class="line"><span class="regexp">, mountNode);</span></span><br></pre></td></tr></table></figure>
+<h2 id="官网"><a href="#官网" class="headerlink" title="官网"></a>官网</h2><p><a href="https://motion.ant.design/" target="_blank" rel="noopener">https://motion.ant.design/</a></p>
+
+          
         
       
     </div>
@@ -1551,16 +1841,15 @@ Generator函数是 ES6 提供的一种异步编程解决方案，语法行为与
       
         
           
-          安装1&gt; npm install socket.io -S
-使用客户端12345678910111213import io from 'socket.io-client'// 得到与服务器的链接对象const socket = io('ws://localhost:9000');// 接收消息
-          ...
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2019/02/15/socket-io/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
+            <h2 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&gt; npm install socket.io -S</span><br></pre></td></tr></table></figure>
+<h2 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h2><h3 id="客户端"><a href="#客户端" class="headerlink" title="客户端"></a>客户端</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> io <span class="keyword">from</span> <span class="string">'socket.io-client'</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 得到与服务器的链接对象</span></span><br><span class="line"><span class="keyword">const</span> socket = io(<span class="string">'ws://localhost:9000'</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 接收消息</span></span><br><span class="line">socket.on(<span class="string">'receiveMsg'</span>, <span class="function"><span class="keyword">function</span> (<span class="params">data</span>) </span>&#123;</span><br><span class="line">  <span class="built_in">console</span>.log(<span class="string">'浏览器接收消息'</span>);</span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line"><span class="comment">// 发送消息</span></span><br><span class="line">socket.emit(<span class="string">'sendMsg'</span>, &#123;<span class="attr">name</span>: <span class="string">'12'</span>, <span class="attr">data</span>: <span class="built_in">Date</span>.now()&#125;)</span><br><span class="line"><span class="built_in">console</span>.log(<span class="string">'发送消息'</span>);</span><br></pre></td></tr></table></figure>
+<h3 id="服务端"><a href="#服务端" class="headerlink" title="服务端"></a>服务端</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">module</span>.exports = <span class="function"><span class="keyword">function</span> (<span class="params">server</span>) </span>&#123;</span><br><span class="line">	<span class="keyword">const</span> io = <span class="built_in">require</span>(<span class="string">'socket.io'</span>)(server);</span><br><span class="line">	<span class="comment">// 监视客户端与服务器端的链接</span></span><br><span class="line">	io.on(<span class="string">'connection'</span>,<span class="function"><span class="keyword">function</span> (<span class="params">socket</span>) </span>&#123;</span><br><span class="line">		<span class="built_in">console</span>.log(<span class="string">'链接成功'</span>);</span><br><span class="line">		socket.on(<span class="string">'sendMsg'</span>,<span class="function"><span class="keyword">function</span> (<span class="params">data</span>) </span>&#123;</span><br><span class="line">			<span class="built_in">console</span>.log(<span class="string">'服务器接受到浏览器消息'</span>);</span><br><span class="line">			<span class="comment">// 全局发数据</span></span><br><span class="line">			io.emit(<span class="string">'receiveMsg'</span>,data.name+<span class="string">'_'</span>+data.data)</span><br><span class="line">			<span class="comment">// 单一发数据</span></span><br><span class="line">			socket.emit(<span class="string">'receiveMsg'</span>,data.name+<span class="string">'_'</span>+data.data)</span><br><span class="line">			<span class="built_in">console</span>.log(<span class="string">'服务器向浏览器发消息'</span>);</span><br><span class="line">		&#125;)</span><br><span class="line">	&#125;)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// www</span></span><br><span class="line"><span class="built_in">require</span>(<span class="string">'../socketIO/test'</span>)(server);</span><br></pre></td></tr></table></figure>
+<h2 id="参考网站"><a href="#参考网站" class="headerlink" title="参考网站"></a>参考网站</h2><ul>
+<li><a href="https://socket.io/get-started/chat/" target="_blank" rel="noopener">https://socket.io/get-started/chat/</a></li>
+<li><a href="https://blog.csdn.net/neuq_zxy/article/details/77531126" target="_blank" rel="noopener">https://blog.csdn.net/neuq_zxy/article/details/77531126</a></li>
+</ul>
+
+          
         
       
     </div>
@@ -1752,17 +2041,15 @@ Generator函数是 ES6 提供的一种异步编程解决方案，语法行为与
       
         
           
-          安装1&gt; yarn add js-cookie -S
-cdn1&lt;script src="https://cdn.jsdelivr.net/npm/js-cookie@2/src/js.cookie.min.js"&gt;&lt;/script&gt;
-使用1import Cookies 
-          ...
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2019/02/14/js-cookie/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
+            <h2 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&gt; yarn add js-cookie -S</span><br></pre></td></tr></table></figure>
+<h3 id="cdn"><a href="#cdn" class="headerlink" title="cdn"></a>cdn</h3><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">script</span> <span class="attr">src</span>=<span class="string">"https://cdn.jsdelivr.net/npm/js-cookie@2/src/js.cookie.min.js"</span>&gt;</span><span class="undefined"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<h2 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h2><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> Cookies <span class="keyword">from</span> <span class="string">'js-cookie'</span></span><br></pre></td></tr></table></figure>
+<h2 id="api"><a href="#api" class="headerlink" title="api"></a>api</h2><h3 id="Cookies-set"><a href="#Cookies-set" class="headerlink" title="Cookies.set"></a>Cookies.set</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Cookies.set(<span class="string">'name'</span>, <span class="string">'value'</span>);</span><br><span class="line">Cookies.set(<span class="string">'name'</span>, <span class="string">'value'</span>, &#123; <span class="attr">expires</span>: <span class="number">7</span> &#125;);</span><br><span class="line">Cookies.set(<span class="string">'name'</span>, <span class="string">'value'</span>, &#123; <span class="attr">expires</span>: <span class="number">7</span>, <span class="attr">path</span>: <span class="string">''</span> &#125;);</span><br></pre></td></tr></table></figure>
+<h3 id="Cookies-get"><a href="#Cookies-get" class="headerlink" title="Cookies.get"></a>Cookies.get</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Cookies.get(<span class="string">'name'</span>); <span class="comment">// =&gt; 'value'</span></span><br><span class="line">Cookies.get(<span class="string">'nothing'</span>); <span class="comment">// =&gt; undefined</span></span><br><span class="line">Cookies.get(); <span class="comment">// =&gt; &#123; name: 'value' &#125;</span></span><br></pre></td></tr></table></figure>
+<h3 id="Cookies-remove"><a href="#Cookies-remove" class="headerlink" title="Cookies.remove"></a>Cookies.remove</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Cookies.remove(<span class="string">'name'</span>);</span><br></pre></td></tr></table></figure>
+<h2 id="参考网站"><a href="#参考网站" class="headerlink" title="参考网站"></a>参考网站</h2><p><a href="https://www.npmjs.com/package/js-cookie" target="_blank" rel="noopener">https://www.npmjs.com/package/js-cookie</a></p>
+
+          
         
       
     </div>
@@ -1954,22 +2241,51 @@ cdn1&lt;script src="https://cdn.jsdelivr.net/npm/js-cookie@2/src/js.cookie.min.j
       
         
           
-          文档
-https://www.redux.org.cn/
+            <h1 id="文档"><a href="#文档" class="headerlink" title="文档"></a>文档</h1><blockquote>
+<p><a href="https://www.redux.org.cn/" target="_blank" rel="noopener">https://www.redux.org.cn/</a></p>
+</blockquote>
+<h2 id="redux-模块"><a href="#redux-模块" class="headerlink" title="redux 模块"></a>redux 模块</h2><ul>
+<li><code>redux</code>模块整体是一个对象模块</li>
+<li>内部包含的函数：<ul>
+<li>createStore(reducers) // reducers:fucntion(state,action)(return newState)</li>
+<li>combineReducers(reducers) // reducers:{reducer1,reducer2} 返回：function(state,action){rteturn newState}</li>
+<li>applyMiddleware()</li>
+</ul>
+</li>
+</ul>
+<h2 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h2><h3 id="基本包"><a href="#基本包" class="headerlink" title="基本包"></a>基本包</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&gt; npm install --save  redux react-redux redux-thunk redux-devtools-extension</span><br></pre></td></tr></table></figure>
+<h3 id="开发工具"><a href="#开发工具" class="headerlink" title="开发工具"></a>开发工具</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install --save-dev redux-devtools</span><br></pre></td></tr></table></figure>
+<h2 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h2><h3 id="目录结构"><a href="#目录结构" class="headerlink" title="目录结构"></a>目录结构</h3><h4 id="redux"><a href="#redux" class="headerlink" title="redux"></a>redux</h4><h5 id="store-js"><a href="#store-js" class="headerlink" title="store.js"></a>store.js</h5><p>redux 最核心的管理模块<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> &#123;createStore,applyMiddleware&#125; <span class="keyword">from</span> <span class="string">"redux"</span>;</span><br><span class="line"><span class="keyword">import</span> thunk <span class="keyword">from</span> <span class="string">'redux-thunk'</span></span><br><span class="line"><span class="keyword">import</span> &#123;composeWithDevTools&#125; <span class="keyword">from</span> <span class="string">"redux-devtools-extension"</span>;</span><br><span class="line"><span class="keyword">import</span> reducers <span class="keyword">from</span> <span class="string">'./reducers'</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 向外暴露 store 对象</span></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> createStore(reducers,composeWithDevTools(applyMiddleware(thunk)))</span><br></pre></td></tr></table></figure></p>
+<h5 id="reducers-js"><a href="#reducers-js" class="headerlink" title="reducers.js"></a>reducers.js</h5><p>包含 n 个 reducer 函数 根据老的 <code>state</code> 和 指定的 <code>action</code> 返回一个 新的 <code>state</code><br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 合并状态</span></span><br><span class="line"><span class="keyword">import</span> &#123;combineReducers&#125; <span class="keyword">from</span> <span class="string">"redux"</span>; </span><br><span class="line"><span class="keyword">import</span> &#123;AUTH_SUCCESS, ERROR_MSG&#125; <span class="keyword">from</span> <span class="string">"./action-types"</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">const</span> register = <span class="function">(<span class="params">user</span>) =&gt;</span> &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">async</span> dispatch =&gt; &#123;</span><br><span class="line">        <span class="comment">// 发送注册的异步 ajax 请求</span></span><br><span class="line">        <span class="keyword">const</span> result = <span class="keyword">await</span> reqRegister(user)</span><br><span class="line">        <span class="built_in">console</span>.log(result);</span><br><span class="line">        <span class="keyword">if</span> (result.code === <span class="number">0</span>) &#123;</span><br><span class="line">            <span class="comment">// 分发成功的同步action</span></span><br><span class="line">            dispatch(authSuccess(result.data))</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            dispatch(errprMsg(result.msg))</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h5 id="actioncs-js"><a href="#actioncs-js" class="headerlink" title="actioncs.js"></a>actioncs.js</h5><p>包含 n 个 action creator</p>
+<ul>
+<li>异步 action</li>
+<li>同步 action</li>
+</ul>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> &#123;</span><br><span class="line">    AUTH_SUCCESS,</span><br><span class="line">    ERROR_MSG</span><br><span class="line">&#125; <span class="keyword">from</span> <span class="string">"./action-types"</span>;</span><br></pre></td></tr></table></figure>
+<h5 id="action-types-js"><a href="#action-types-js" class="headerlink" title="action-types.js"></a>action-types.js</h5><p>包含 n 个 action-type 常量<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">export</span> <span class="keyword">const</span> AUTH_SUCCESS=<span class="string">'auth_success'</span></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">const</span> ERROR_MSG=<span class="string">'error_msg'</span></span><br></pre></td></tr></table></figure></p>
+<h5 id="app-js"><a href="#app-js" class="headerlink" title="app.js"></a>app.js</h5><p>引入<code>Provider</code>、<code>store</code><br><figure class="highlight typescript"><figcaption><span>jsx</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> &#123;Provider&#125; <span class="keyword">from</span> <span class="string">'react-redux'</span></span><br><span class="line"><span class="keyword">import</span> store <span class="keyword">from</span> <span class="string">'./redux/store'</span></span><br><span class="line"><span class="keyword">class</span> App <span class="keyword">extends</span> Component &#123;</span><br><span class="line">  render() &#123;</span><br><span class="line">    <span class="keyword">return</span> (</span><br><span class="line">      &lt;div className=<span class="string">"App"</span>&gt;</span><br><span class="line">        &lt;Provider store=&#123;store&#125;&gt;</span><br><span class="line">          &lt;HashRouter&gt;</span><br><span class="line">            &lt;Switch&gt;</span><br><span class="line">              &lt;Route exact path=<span class="string">'/register'</span> component=&#123;Register&#125;/&gt;</span><br><span class="line">              &lt;Route exact path=<span class="string">'/login'</span> component=&#123;Login&#125;/&gt;</span><br><span class="line">              &lt;Route component=&#123;Main&#125;/&gt; &#123;<span class="comment">/* 默认组件*/</span>&#125;</span><br><span class="line">            &lt;<span class="regexp">/Switch&gt;</span></span><br><span class="line"><span class="regexp">          &lt;/</span>HashRouter&gt;</span><br><span class="line">        &lt;<span class="regexp">/Provider&gt;</span></span><br><span class="line"><span class="regexp">      &lt;/</span>div&gt;</span><br><span class="line">    );</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h2 id="参考文章"><a href="#参考文章" class="headerlink" title="参考文章"></a>参考文章</h2><p><a href="http://www.ruanyifeng.com/blog/2016/09/redux_tutorial_part_one_basic_usages.html" target="_blank" rel="noopener">Redux 入门教程</a></p>
+<ul>
+<li><a href="https://cn.vuejs.org/v2/guide/state-management.html" target="_blank" rel="noopener">https://cn.vuejs.org/v2/guide/state-management.html</a></li>
+<li><a href="https://vuex.vuejs.org/" target="_blank" rel="noopener">https://vuex.vuejs.org/</a></li>
+<li><a href="https://cn.redux.js.org/docs/react-redux/" target="_blank" rel="noopener">https://cn.redux.js.org/docs/react-redux/</a></li>
+<li><a href="http://www.ruanyifeng.com/blog/2016/09/redux_tutorial_part_two_async_operations.html" target="_blank" rel="noopener">http://www.ruanyifeng.com/blog/2016/09/redux_tutorial_part_two_async_operations.html</a></li>
+<li><a href="http://www.ruanyifeng.com/blog/2016/09/redux_tutorial_part_three_react-redux.html" target="_blank" rel="noopener">http://www.ruanyifeng.com/blog/2016/09/redux_tutorial_part_three_react-redux.html</a></li>
+<li><a href="https://redux-saga-in-chinese.js.org" target="_blank" rel="noopener">https://redux-saga-in-chinese.js.org</a></li>
+<li><a href="https://juejin.im/post/59e6cd68f265da43163c2821" target="_blank" rel="noopener">https://juejin.im/post/59e6cd68f265da43163c2821</a></li>
+<li><a href="https://react-redux.js.org/introduction/why-use-react-redux" target="_blank" rel="noopener">https://react-redux.js.org/introduction/why-use-react-redux</a></li>
+<li><a href="https://segmentfault.com/a/1190000007248878" target="_blank" rel="noopener">https://segmentfault.com/a/1190000007248878</a></li>
+<li><a href="http://es6.ruanyifeng.com/#docs/generator" target="_blank" rel="noopener">http://es6.ruanyifeng.com/#docs/generator</a></li>
+<li><a href="https://juejin.im/post/5ac1cb9d6fb9a028cf32a046" target="_blank" rel="noopener">https://juejin.im/post/5ac1cb9d6fb9a028cf32a046</a></li>
+<li><a href="https://zhuanlan.zhihu.com/p/35437092" target="_blank" rel="noopener">https://zhuanlan.zhihu.com/p/35437092</a></li>
+<li><a href="https://github.com/dvajs/dva/issues/1" target="_blank" rel="noopener">https://github.com/dvajs/dva/issues/1</a></li>
+<li><a href="https://cn.mobx.js.org" target="_blank" rel="noopener">https://cn.mobx.js.org</a></li>
+<li><a href="https://zhuanlan.zhihu.com/p/25585910" target="_blank" rel="noopener">https://zhuanlan.zhihu.com/p/25585910</a></li>
+<li><a href="http://imweb.io/topic/59f4833db72024f03c7f49b4" target="_blank" rel="noopener">http://imweb.io/topic/59f4833db72024f03c7f49b4</a></li>
+</ul>
 
-redux 模块
-redux模块整体是一个对象模块
-内部包含的函数：
-createStore(reducers) // reducers:fucntion(state,action)(return newState)
-combineRedu
-          ...
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2019/02/13/redux的使用/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
+          
         
       
     </div>
@@ -2161,22 +2477,46 @@ combineRedu
       
         
           
-          前台数据展示/交互/组件化react-router-dom
-npm i react-router-dom -S
+            <h3 id="前台数据展示-交互-组件化"><a href="#前台数据展示-交互-组件化" class="headerlink" title="前台数据展示/交互/组件化"></a>前台数据展示/交互/组件化</h3><h4 id="react-router-dom"><a href="#react-router-dom" class="headerlink" title="react-router-dom"></a><a href="../react-router-dom的使用">react-router-dom</a></h4><blockquote>
+<p>npm i react-router-dom -S</p>
+</blockquote>
+<h4 id="redux"><a href="#redux" class="headerlink" title="redux"></a>redux</h4><blockquote>
+<p>npm i redux react-redux redux-thunk redux-devtools-extension -S</p>
+</blockquote>
+<h4 id="antd-mobile"><a href="#antd-mobile" class="headerlink" title="antd-mobile"></a>antd-mobile</h4><blockquote>
+<p>npm i -D babel-plugin-import react-app-rewired</p>
+</blockquote>
+<ul>
+<li>引入 看文档</li>
+<li>按需打包</li>
+</ul>
+<h3 id="后台项目"><a href="#后台项目" class="headerlink" title="后台项目"></a>后台项目</h3><ul>
+<li>node</li>
+<li>express</li>
+<li>mongodb</li>
+<li>mongoose</li>
+<li>socket.io</li>
+</ul>
+<h3 id="前后台交互"><a href="#前后台交互" class="headerlink" title="前后台交互"></a>前后台交互</h3><ul>
+<li>ajax 请求</li>
+<li>axios</li>
+<li>async / await<h3 id="测试-API-接口"><a href="#测试-API-接口" class="headerlink" title="测试 API 接口"></a>测试 API 接口</h3></li>
+<li>postman<h3 id="模块化"><a href="#模块化" class="headerlink" title="模块化"></a>模块化</h3></li>
+<li>ES6</li>
+<li>babel</li>
+</ul>
+<h3 id="项目构建-工程化"><a href="#项目构建-工程化" class="headerlink" title="项目构建/工程化"></a>项目构建/工程化</h3><ul>
+<li>webpack</li>
+<li>react-create-app</li>
+<li>eslint</li>
+</ul>
+<h3 id="其他相关库"><a href="#其他相关库" class="headerlink" title="其他相关库"></a>其他相关库</h3><ul>
+<li>blueimp-md5</li>
+<li>js-cookie</li>
+<li>rc-queue-anim</li>
+</ul>
 
-redux
-npm i redux react-redux redux-thunk redux-devtools-extension -S
-
-antd-mobile
-npm i -D b
-          ...
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2019/02/13/react技术选型/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
+          
         
       
     </div>
@@ -2368,17 +2708,39 @@ npm i -D b
       
         
           
-          安装1&gt; yarn add react-router react-router-dom -S
-引入1import &#123;Swtich, Route, Router, HashHistory, Link&#125; from 'react-router-dom';
-简单使用1234567&
-          ...
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2019/02/13/react-router-dom的使用/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
+            <h2 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&gt; yarn add react-router react-router-dom -S</span><br></pre></td></tr></table></figure>
+<h2 id="引入"><a href="#引入" class="headerlink" title="引入"></a>引入</h2><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> &#123;Swtich, Route, Router, HashHistory, Link&#125; <span class="keyword">from</span> <span class="string">'react-router-dom'</span>;</span><br></pre></td></tr></table></figure>
+<h2 id="简单使用"><a href="#简单使用" class="headerlink" title="简单使用"></a>简单使用</h2><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">HashRouter</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">Switch</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">Route</span> <span class="attr">exact</span> <span class="attr">path</span>=<span class="string">'/'</span> <span class="attr">component</span>=<span class="string">&#123;home&#125;</span>&gt;</span>1212<span class="tag">&lt;/<span class="name">Route</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">Route</span> <span class="attr">exact</span> <span class="attr">path</span>=<span class="string">'/a'</span> <span class="attr">component</span>=<span class="string">&#123;a&#125;</span>&gt;</span>12321312<span class="tag">&lt;/<span class="name">Route</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">Route</span> <span class="attr">component</span>=<span class="string">&#123;a&#125;</span>&gt;</span>12321312<span class="tag">&lt;/<span class="name">Route</span>&gt;</span> &#123;/* 默认组件*/&#125;</span><br><span class="line">  <span class="tag">&lt;/<span class="name">Switch</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">HashRouter</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<h2 id="API"><a href="#API" class="headerlink" title="API"></a>API</h2><blockquote>
+<p><a href="https://reacttraining.com/react-router/web/api/BrowserRouter" target="_blank" rel="noopener">https://reacttraining.com/react-router/web/api/BrowserRouter</a></p>
+</blockquote>
+<h3 id="lt-Router"><a href="#lt-Router" class="headerlink" title="&lt;Router>"></a>&lt;Router></h3><h4 id="history-object"><a href="#history-object" class="headerlink" title="history: object"></a>history: object</h4><h4 id="children-node"><a href="#children-node" class="headerlink" title="children: node"></a>children: node</h4><h3 id="lt-BrowserRouter"><a href="#lt-BrowserRouter" class="headerlink" title="&lt;BrowserRouter>"></a>&lt;BrowserRouter></h3><h4 id="basename-string"><a href="#basename-string" class="headerlink" title="basename: string"></a>basename: string</h4><p>所有位置的基准 URL。</p>
+<ul>
+<li>如果你的应用程序部署在服务器的子目录，则需要将其设置为子目录。</li>
+<li><code>basename</code> 的正确格式是前面有一个前导斜杠，但不能有尾部斜杠。</li>
+</ul>
+<h4 id="getUserConfirmation-func"><a href="#getUserConfirmation-func" class="headerlink" title="getUserConfirmation: func"></a>getUserConfirmation: func</h4><h4 id="forceRefresh-bool"><a href="#forceRefresh-bool" class="headerlink" title="forceRefresh: bool"></a>forceRefresh: bool</h4><p>强制刷新页面</p>
+<h4 id="keyLength-number"><a href="#keyLength-number" class="headerlink" title="keyLength: number"></a>keyLength: number</h4><h4 id="children-node-1"><a href="#children-node-1" class="headerlink" title="children: node"></a>children: node</h4><h3 id="lt-HashRouter"><a href="#lt-HashRouter" class="headerlink" title="&lt;HashRouter>"></a>&lt;HashRouter></h3><h4 id="basename-string-1"><a href="#basename-string-1" class="headerlink" title="basename: string"></a>basename: string</h4><h4 id="getUserConfirmation-func-1"><a href="#getUserConfirmation-func-1" class="headerlink" title="getUserConfirmation: func"></a>getUserConfirmation: func</h4><h4 id="hashtype-string"><a href="#hashtype-string" class="headerlink" title="hashtype: string"></a>hashtype: string</h4><ul>
+<li>slash: #/</li>
+<li>noslash: #</li>
+<li>hashbang: #!<h4 id="children-node-2"><a href="#children-node-2" class="headerlink" title="children: node"></a>children: node</h4></li>
+</ul>
+<h3 id="lt-StaticRouter"><a href="#lt-StaticRouter" class="headerlink" title="&lt;StaticRouter>"></a>&lt;StaticRouter></h3><h4 id="basename-string-2"><a href="#basename-string-2" class="headerlink" title="basename: string"></a>basename: string</h4><h4 id="location-string"><a href="#location-string" class="headerlink" title="location: string"></a>location: string</h4><h4 id="location-object"><a href="#location-object" class="headerlink" title="location: object"></a>location: object</h4><h4 id="context-object"><a href="#context-object" class="headerlink" title="context: object"></a>context: object</h4><h4 id="children-node-3"><a href="#children-node-3" class="headerlink" title="children: node"></a>children: node</h4><h3 id="lt-MemoruRouter"><a href="#lt-MemoruRouter" class="headerlink" title="&lt;MemoruRouter>"></a>&lt;MemoruRouter></h3><h4 id="initialEntries-array"><a href="#initialEntries-array" class="headerlink" title="initialEntries: array"></a>initialEntries: array</h4><h4 id="initialIndex-number"><a href="#initialIndex-number" class="headerlink" title="initialIndex: number"></a>initialIndex: number</h4><h4 id="getUserConfirmation-func-2"><a href="#getUserConfirmation-func-2" class="headerlink" title="getUserConfirmation: func"></a>getUserConfirmation: func</h4><h4 id="keylength-number"><a href="#keylength-number" class="headerlink" title="keylength: number"></a>keylength: number</h4><h4 id="children-node-4"><a href="#children-node-4" class="headerlink" title="children: node"></a>children: node</h4><h3 id="lt-Link"><a href="#lt-Link" class="headerlink" title="&lt;Link>"></a>&lt;Link></h3><h4 id="to-string"><a href="#to-string" class="headerlink" title="to: string"></a>to: string</h4><h4 id="to-object"><a href="#to-object" class="headerlink" title="to: object"></a>to: object</h4><ul>
+<li>pathname: url</li>
+<li>search: query</li>
+<li>hash: #</li>
+<li>state: {} <h4 id="replace-func"><a href="#replace-func" class="headerlink" title="replace: func"></a>replace: func</h4><h4 id="innerRef-func"><a href="#innerRef-func" class="headerlink" title="innerRef: func"></a>innerRef: func</h4><h4 id="others"><a href="#others" class="headerlink" title="others"></a>others</h4></li>
+</ul>
+<h3 id="lt-NavLink"><a href="#lt-NavLink" class="headerlink" title="&lt;NavLink>"></a>&lt;NavLink></h3><h4 id="activeClassName-string"><a href="#activeClassName-string" class="headerlink" title="activeClassName: string"></a>activeClassName: string</h4><h4 id="activeStyle-object"><a href="#activeStyle-object" class="headerlink" title="activeStyle: object"></a>activeStyle: object</h4><h4 id="exact-bool"><a href="#exact-bool" class="headerlink" title="exact: bool"></a>exact: bool</h4><h4 id="strict-bool"><a href="#strict-bool" class="headerlink" title="strict: bool"></a>strict: bool</h4><h4 id="isActive-func"><a href="#isActive-func" class="headerlink" title="isActive: func"></a>isActive: func</h4><h4 id="location-object-1"><a href="#location-object-1" class="headerlink" title="location: object"></a>location: object</h4><h3 id="lt-Prompt"><a href="#lt-Prompt" class="headerlink" title="&lt;Prompt>"></a>&lt;Prompt></h3><p>用于在位置跳转之前给予用户一些确认信息。当你的应用程序进入一个应该阻止用户导航的状态时（比如表单只填写了一半），弹出一个提示。</p>
+<h4 id="message-string"><a href="#message-string" class="headerlink" title="message: string"></a>message: string</h4><h4 id="message-func"><a href="#message-func" class="headerlink" title="message: func"></a>message: func</h4><h4 id="when-bool"><a href="#when-bool" class="headerlink" title="when: bool"></a>when: bool</h4><h3 id="lt-Redirect"><a href="#lt-Redirect" class="headerlink" title="&lt;Redirect>"></a>&lt;Redirect></h3><h4 id="to-string-1"><a href="#to-string-1" class="headerlink" title="to: string"></a>to: string</h4><h4 id="to-object-1"><a href="#to-object-1" class="headerlink" title="to: object"></a>to: object</h4><h4 id="push-bool"><a href="#push-bool" class="headerlink" title="push: bool"></a>push: bool</h4><h4 id="from-string"><a href="#from-string" class="headerlink" title="from: string"></a>from: string</h4><h4 id="exact-bool-1"><a href="#exact-bool-1" class="headerlink" title="exact: bool"></a>exact: bool</h4><h4 id="strict-bool-1"><a href="#strict-bool-1" class="headerlink" title="strict: bool"></a>strict: bool</h4><h3 id="lt-Switch"><a href="#lt-Switch" class="headerlink" title="&lt;Switch>"></a>&lt;Switch></h3><h4 id="location-object-2"><a href="#location-object-2" class="headerlink" title="location: object"></a>location: object</h4><h4 id="children-node-5"><a href="#children-node-5" class="headerlink" title="children: node"></a>children: node</h4><h3 id="withRouter"><a href="#withRouter" class="headerlink" title="withRouter"></a>withRouter</h3><p>将非路由组件变成路由组件<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> &#123;withRouter&#125; <span class="keyword">from</span> <span class="string">'react-router-dom'</span></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> withRouter(<span class="string">`组件名`</span>)</span><br></pre></td></tr></table></figure></p>
+<h3 id="编程式导航history"><a href="#编程式导航history" class="headerlink" title="编程式导航history"></a>编程式导航<code>history</code></h3><p>在<code>props</code>上有<code>history</code>对象，这个对象上存在多个个方法</p>
+<ul>
+<li>push</li>
+<li></li>
+<li>replace</li>
+</ul>
+
+          
         
       
     </div>

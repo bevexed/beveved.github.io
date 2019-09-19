@@ -291,26 +291,6 @@
           </a>
         </li>
       
-        
-        <li class="menu-item menu-item-sitemap">
-          <a href="/sitemap.xml" rel="section">
-            
-              <i class="menu-item-icon fa fa-fw fa-sitemap"></i> <br>
-            
-            站点地图
-          </a>
-        </li>
-      
-        
-        <li class="menu-item menu-item-commonweal">
-          <a href="/404/" rel="section">
-            
-              <i class="menu-item-icon fa fa-fw fa-heartbeat"></i> <br>
-            
-            公益404
-          </a>
-        </li>
-      
 
       
         <li class="menu-item menu-item-search">
@@ -521,20 +501,173 @@
       
         
           
-          简述 Nginx
-nginx有一个主进程和几个工作进程。(参看 worker_processes).
+            <h2 id="简述-Nginx"><a href="#简述-Nginx" class="headerlink" title="简述 Nginx"></a>简述 Nginx</h2><ul>
+<li><p>nginx有一个主进程和几个工作进程。(参看 worker_processes).</p>
+<ul>
+<li>主进程的主要目的是为了读取和评估配置并且维护工作进程。工作进程处理实际请求。</li>
+<li>nginx在工作进程中采用事件驱动模型和OS依赖机制有效分配请求。</li>
+<li>工作进程的数量取决于配置文件中定义的固定值或者是通过有效的CPU核数自动判定数量。</li>
+<li>工作进程的数量在配置文件中定义，可据给定的配置对工作进程的数量进行固定，也可以根据可用CPU内核的数量进行自动调整。</li>
+</ul>
+</li>
+<li><p>nginx及其各模块的工作方式取决于配置文件。</p>
+<ul>
+<li>默认情况下，配置文件名为nginx.conf，并放置在/usr/local/nginx/conf、/etc/nginx或/usr/local/etc/nginx.目录中。</li>
+</ul>
+</li>
+</ul>
+<h2 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h2><blockquote>
+<p>自行参考 Installing nginx 页面<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&gt; brew install ngnix</span><br></pre></td></tr></table></figure></p>
+</blockquote>
+<h2 id="启动-停止-和重新加载配置文件"><a href="#启动-停止-和重新加载配置文件" class="headerlink" title="启动, 停止, 和重新加载配置文件"></a>启动, 停止, 和重新加载配置文件</h2><blockquote>
+<p>启动的时候直接运行nginx.exe或者nginx。如果nginx已经启动，就可以直接使用参数-s 来进行调用执行，具体的使用语法如下：</p>
+</blockquote>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&gt; nginx -s signal</span><br></pre></td></tr></table></figure>
+<p>signal 的位置可以是如下参数：</p>
+<ul>
+<li>stop — 指令一经发出，直接停止</li>
+<li>quit — 等待所有的请求完成，再停止</li>
+<li>reload — 重新加载配置文件nginx.conf</li>
+<li>reopen — 重新打开日志文件</li>
+</ul>
+<h2 id="配置文件结构"><a href="#配置文件结构" class="headerlink" title="配置文件结构"></a>配置文件结构</h2><ul>
+<li>nginx由模块组成<ul>
+<li>这些模块由配置文件中指定的指令控制。</li>
+<li>指令分为简单指令和块指令。</li>
+<li>一个简单的指令由名称和参数组成，这些名称和参数由空格分隔，并以分号(;)结尾。</li>
+<li>块指令具有与简单指令相同的结构，但它的结尾不是分号，而是一组由大括号({、})包围的附加指令。</li>
+<li>如果一个块指令在大括号中包含其他指令，则这个块指令又叫做上下文 (例如: events, http, server, 和location).</li>
+<li>放在任何上下文之外的配置文件中的指令被认为是在主上下文中。</li>
+<li>event 和 http 指令驻留在主上下文中，server 驻留在 http 中，location 驻留在 server中。</li>
+<li>一行中在#符号后面的是注释</li>
+</ul>
+</li>
+</ul>
+<h3 id="全局块"><a href="#全局块" class="headerlink" title="全局块"></a>全局块</h3><ul>
+<li>从配置文件开始到 events 块之间的内容</li>
+<li>主要设置影响 Ngnix 服务器整体运行的配置指令</li>
+</ul>
+<h3 id="event-块"><a href="#event-块" class="headerlink" title="event 块"></a>event 块</h3><ul>
+<li>涉及的指令主要影响 Nginx 服务器与用户的网络连接</li>
+<li>这部分的配置对 Nginx 的性能影响较大，在实际中应该灵活配置</li>
+</ul>
+<h3 id="http-块"><a href="#http-块" class="headerlink" title="http 块"></a>http 块</h3><ul>
+<li>是 Nginx 服务器配置中最频繁的部分，代理、缓存和日志定义等绝大多数功能和第三方模块的配置都在这里</li>
+<li>http 块中也可以包括 http 全局块、 server块</li>
+</ul>
+<h3 id="http-全局块"><a href="#http-全局块" class="headerlink" title="http 全局块"></a>http 全局块</h3><ul>
+<li>http全局块配置的指令包括文件引入、MIME-TYPE 定义、日志自定义、连接超时时间、单链接请求数上限等。</li>
+</ul>
+<h3 id="sever-块"><a href="#sever-块" class="headerlink" title="sever 块"></a>sever 块</h3><ul>
+<li>这块和虚拟主机有密切关系，虚拟主机从用户角度看，和一台独立的硬件主机是完全一样的，该技术的产生是为了节省互联网服务器硬件成本。后面会详细介绍虚拟主机的概念。</li>
+<li>每个 http 块可以包括多个 server 块，而每个 server 块就相当于一个虚拟主机。</li>
+<li>而每个 server 块也分为全局 server 块，以及可以同时包含多个 locaton 块。</li>
+</ul>
+<h3 id="location-块"><a href="#location-块" class="headerlink" title="location 块"></a>location 块</h3><ul>
+<li>一个 server 块可以配置多个 location 块。</li>
+<li>这块的主要作用是基于 Nginx 服务器接收到的请求字符串（例如 server_name/uri-string），对虚拟主机名称（也可以是IP别名）之外的字符串（例如 前面的 /uri-string）进行匹配，对特定的请求进行处理。<strong>地址定向、数据缓存和应答控制</strong>等功能，还有许多第三方模块的配置也在这里进行。</li>
+</ul>
+<h2 id="功能"><a href="#功能" class="headerlink" title="功能"></a>功能</h2><ul>
+<li>web服务器最重要的任务是对外提供文件，例如(图片或者静态HTML网页)。</li>
+</ul>
+<h3 id="提供静态资源内容"><a href="#提供静态资源内容" class="headerlink" title="提供静态资源内容"></a>提供静态资源内容</h3><ul>
+<li>通常，配置文件包含几个server块指令，这些块指令通过不同的服务名字（server names）分发监听（distinguished listen）在不同的端口。</li>
+<li>一旦nginx决定哪个服务器处理请求，它就会根据 server 块指令中定义的 location 指令的参数匹配请求头中指定的URI。</li>
+<li>在server块指令中添加 location 指令：<figure class="highlight crmsh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">location</span> <span class="title">/ &#123;</span></span><br><span class="line"><span class="title"> root</span> /data/www;</span><br><span class="line">&#125;</span><br><span class="line">`</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<blockquote>
+<p>这个location块详述了与URI请求相匹配的“/”前缀。如果匹配到请求，这个 URI 会被转到 root 指令的路径。也就是说，所有请求文件都会直接请求到本地文件系统的/data/www路径。<strong><em>如果有多个匹配的location块，nginx会选择最长前缀的那个</em></strong>。上面提供的location块是长度只有1的最短前缀，因此，其它所有的location块都匹配失败的话，这个location块指令才会被使用。</p>
+<ul>
+<li>添加第二个location块：<figure class="highlight crmsh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">location</span> <span class="title">/images</span> &#123;</span><br><span class="line"> root /data;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</blockquote>
+<blockquote>
+<p>这个会匹配以/images开头的请求（/也会匹配请求，只不过这个前缀更短）。</p>
+</blockquote>
+<ul>
+<li>一个正常的服务器配置文件监听在80端口上，并且可以在本机上成功访问<a href="http://localhost/。" target="_blank" rel="noopener">http://localhost/。</a></li>
+<li>以/images/开头请求的URI地址，服务器会从/data/images文件夹下面返回对应的文件。例如，请求/data/images/example.png这个文件，nginx服务器会返回<a href="http://localhost/images/example.png。" target="_blank" rel="noopener">http://localhost/images/example.png。</a></li>
+<li><p>如果服务器没有这个文件会返回404 错误。不是以/images/开头的请求,就会被映射到/data/www 文件夹。例如, 请求nginx/data/www/some/example.html,服务器会响应<a href="http://localhost/some/example.html" target="_blank" rel="noopener">http://localhost/some/example.html</a> 这个文件。</p>
+</li>
+<li><p>为了应用一个新的配置文件，如果nginx还没有启动，就直接启动nginx服务器，如果已经启动，直接使用下面指令发送到nginx的主进程中，如下: 如果nginx尚未启动，则启动nginx，或者向nginx的主进程发送重新加载信号，执行:</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&gt; nginx -s reload</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h3 id="反向代理"><a href="#反向代理" class="headerlink" title="反向代理"></a>反向代理</h3><ul>
+<li>正向代理代理客户端，反向代理代理服务器</li>
+<li>反向代理，其实客户端对代理是无感知的，因为客户端不需要任何配置就可以访问，我们只需要将请求发送到反向代理服务器，由反向代理服务器去选择目标服务器获取数据后，在返回给客户端，此时反向代理服务器和目标服务器对外就是一个服务器，暴露的是代理服务器地址，隐藏了真实服务器IP地址。</li>
+</ul>
+<h4 id="反向代理配置"><a href="#反向代理配置" class="headerlink" title="反向代理配置"></a>反向代理配置</h4><ul>
+<li><p>例：使用 Ngwmeinx 反向代理 localhost:8000 直接跳转到 <a href="http://localhost:3000" target="_blank" rel="noopener">http://localhost:3000</a></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">server &#123;</span><br><span class="line">      listen       8000;</span><br><span class="line">      #listen       somename:8080;</span><br><span class="line">      server_name  somename  alias  another.alias;</span><br><span class="line"></span><br><span class="line">      location / &#123;</span><br><span class="line">          proxy_pass   http://localhost:3000;</span><br><span class="line">          index  index.html index.htm;</span><br><span class="line">      &#125;</span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h5 id="listen"><a href="#listen" class="headerlink" title="listen"></a>listen</h5><p>配置网络监听，主要语法结构有三种</p>
+<ol>
+<li><p>配置监听的IP地址</p>
+<figure class="highlight accesslog"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">listen address<span class="string">[:port]</span> <span class="string">[default_server]</span> <span class="string">[setfib=number]</span> <span class="string">[backlog=number]</span> <span class="string">[rcvbuf=size]</span> <span class="string">[sndbuf=size]</span> <span class="string">[deferred]</span> <span class="string">[accept_filter=filter]</span> <span class="string">[bind]</span> <span class="string">[ssl]</span>;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>配置监听端口</p>
+<figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">listen port[default_server] [<span class="attribute">setfib</span>=number] [<span class="attribute">backlog</span>=number] [<span class="attribute">rcvbuf</span>=size] [<span class="attribute">sndbuf</span>=size] [<span class="attribute">accept_filter</span>=filter] [deferred] [bind] [<span class="attribute">ipv6only</span>=on|off] [ssl];</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>配置 UNIX Domain Socket</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-tag">listen</span> <span class="selector-tag">unix</span><span class="selector-pseudo">:path</span> <span class="selector-attr">[default_server]</span>  <span class="selector-attr">[backlog=number]</span> <span class="selector-attr">[rcvbuf=size]</span> <span class="selector-attr">[sndbuf=size]</span> <span class="selector-attr">[accept_filter=filter]</span> <span class="selector-attr">[deferred]</span> <span class="selector-attr">[bind]</span> <span class="selector-attr">[ssl]</span>;</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<ul>
+<li><p>实例</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">listen *:80 | *:8080  #监听所有80端口和8080端口</span><br><span class="line">listen  IP_address:port   #监听指定的地址和端口号</span><br><span class="line">listen  IP_address     #监听指定ip地址所有端口</span><br><span class="line">listen port     #监听该端口的所有IP连接</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>下面分别解释每个选项的具体含义：</p>
+<blockquote>
+<p><code>address</code> : IP地址，如果是 IPV6地址，需要使用中括号[] 括起来，比如[fe80::1]等。<br><code>address</code> : IP地址，如果是 IPV6地址，需要使用中括号[] 括起来，比如[fe80::1]等。<br><code>port</code> : 端口号，如果只定义了IP地址，没有定义端口号，那么就使用80端口。<br><code>path</code> : socket文件路径，如 var/run/nginx.sock等。<br><code>default_server</code> : 标识符，将此虚拟主机设置为 address:port 的默认主机。（在 nginx-0.8.21 之前使用的是 default 指令）<br><code>setfib</code> = number : Nginx-0.8.44 中使用这个变量监听 socket 关联路由表，目前只对 FreeBSD 起作用，不常用。<br><code>backlog</code> = number : 设置监听函数listen()最多允许多少网络连接同时处于挂起状态，在 FreeBSD 中默认为 -1,其他平台默认为511.<br><code>rcvbuf</code> = size : 设置监听socket接收缓存区大小。<br><code>sndbuf</code> = size : 设置监听socket发送缓存区大小。<br><code>deferred</code> : 标识符，将accept()设置为Deferred模式。<br><code>accept_filter = filter</code> : 设置监听端口对所有请求进行过滤，被过滤的内容不能被接收和处理，本指令只在 FreeBSD 和 NetBSD 5.0+ 平台下有效。filter 可以设置为 dataready 或 httpready 。<br><code>bind</code> : 标识符，使用独立的bind() 处理此address:port，一般情况下，对于端口相同而IP地址不同的多个连接，Nginx 服务器将只使用一个监听指令，并使用 bind() 处理端口相同的所有连接。<br><code>ssl</code> : 标识符，设置会话连接使用 SSL模式进行，此标识符和Nginx服务器提供的 HTTPS 服务有关。</p>
+</blockquote>
+</li>
+</ul>
+<h5 id="server-name"><a href="#server-name" class="headerlink" title="server_name"></a>server_name</h5><ul>
+<li><p>用于虚拟主机的配置，通常两种配置方法：</p>
+<figure class="highlight gams"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="title">server_name</span></span> name...;</span><br></pre></td></tr></table></figure>
+<ol>
+<li><p>对于 name 来说，可以只有一个名称，也可以有多个名称，中间用空格隔开。而每个名字由两段或者三段组成，每段之间用 <code>.</code> 隔开</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">server_name baidu.com www.baidu.com</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>可以使用通配符 <code>*</code>，但通配符只能用在由 <strong><em>三段字符</em></strong> 诸城的首段或者尾端</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">server_name baidu.com www.baidu.com</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>可以使用正则表达式，用“~”作为正则表达式字符串的开始标记</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">server_name ~^www\d+\.123\.com$;</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+</li>
+</ul>
+<ul>
+<li><p>匹配优先级</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">1. 准确匹配 server_name</span><br><span class="line">2. 通配符在开始时匹配 server_name 成功</span><br><span class="line">3. 通配符在结尾时匹配 server_name 成功</span><br><span class="line">4. 正则表达式匹配 server_name 成功</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<ul>
+<li>基于 IP 地址的虚拟主机配置<br>语法结构和基于域名匹配一样，而且不需要考虑通配符和正则表达式的问题。<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">server_name 192.168.1.1</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h5 id="location"><a href="#location" class="headerlink" title="location"></a>location</h5><p>用于匹配 URL<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"> location [ = | ~ | ~* | ^~] uri &#123; </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<ol>
+<li><code>=</code> ：用于不含正则表达式的 uri 前，要求请求字符串与 uri 严格匹配，如果匹配成功，就停止继续向下搜索并立即处理该请求。</li>
+<li><code>~</code> ：用于表示 uri 包含正则表达式，并且区分大小写。</li>
+<li><code>~*</code> ：用于表示 uri 包含正则表达式，并且不区分大小写。</li>
+<li><code>^~</code> ：用于不含正则表达式的 uri 前，要求 Nginx 服务器找到标识 uri 和请求字符串匹配度最高的 location 后，立即使用此 location 处理请求，而不再使用 location 块中的正则 uri 和请求字符串做匹配。<blockquote>
+<p>注意：如果 uri 包含正则表达式，则必须要有 ~ 或者 ~* 标识</p>
+</blockquote>
+</li>
+</ol>
+<h5 id="proxy-pass"><a href="#proxy-pass" class="headerlink" title="proxy_pass"></a>proxy_pass</h5><p>设置代理服务器的地址,可以是 主机名称、IP 地址加端口，URI 等<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">prox_pass URL</span><br></pre></td></tr></table></figure></p>
+<h2 id="配置图解"><a href="#配置图解" class="headerlink" title="配置图解"></a>配置图解</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">#user nobody; # user 指定运行 nginx 的用户和组（第一个参数为用户第二个为组，这里只有用户）</span><br><span class="line">worker_processes  1; #运行时使用CPU的个数</span><br><span class="line"></span><br><span class="line">#error_log  logs/error.log; # 指定错误日志为 logs/ 目录下的 error.log 文件</span><br><span class="line">#error_log  logs/error.log  notice; # 指定错误日志，并指定写入格式为 notice</span><br><span class="line">#error_log  logs/error.log  info; # 指定错误日志，并指定写入格式为 info</span><br><span class="line"></span><br><span class="line">#pid        logs/nginx.pid; # 指定 pid 文件（存放主进程 pid 号）</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">events &#123;</span><br><span class="line">    worker_connections  1024; #一个woeker进程的最大连接数</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">#Nginx用作虚拟主机时使用。每一个server模块生成一个虚拟主机。</span><br><span class="line">http &#123;</span><br><span class="line">    include       mime.types; #定义MIME类型和后缀名关联的文件的位置</span><br><span class="line">    default_type  application/octet-stream; #指定mime.types文件中没有记述到的后缀名的处理方法</span><br><span class="line"></span><br><span class="line">    # 写入格式 main 的内容格式如下</span><br><span class="line">    #log_format  main  &apos;$remote_addr - $remote_user [$time_local] &quot;$request&quot; &apos;</span><br><span class="line">    #                  &apos;$status $body_bytes_sent &quot;$http_referer&quot; &apos;</span><br><span class="line">    #                  &apos;&quot;$http_user_agent&quot; &quot;$http_x_forwarded_for&quot;&apos;;</span><br><span class="line"></span><br><span class="line">    #access_log  logs/access.log  main; # 指定访问日志和写入格式为 main</span><br><span class="line"></span><br><span class="line">    sendfile        on;  #是 否使用OS的sendfile函数来传输文件</span><br><span class="line">    #tcp_nopush     on; # 启用或者禁用使用套接字选项（仅在 sendfile 使用时使用）</span><br><span class="line"></span><br><span class="line">    #keepalive_timeout  0;  # 0 值禁用保持活动的客户端连接</span><br><span class="line">    keepalive_timeout  65;  #HTTP连接的持续时间。设的太长会使无用的线程变的太多</span><br><span class="line"></span><br><span class="line">    #gzip  on; # 启用或者禁用 gzip</span><br><span class="line"></span><br><span class="line">    # 虚拟主机配置模块</span><br><span class="line">    server &#123;</span><br><span class="line">        listen       8888; #监听端口</span><br><span class="line"></span><br><span class="line">        server_name  localhost; #服务地址</span><br><span class="line"></span><br><span class="line">        charset utf-8;   #编码方式</span><br><span class="line">        #charset koi8-r;</span><br><span class="line"></span><br><span class="line">        #root /var/www; #你的网站根目录</span><br><span class="line">        root  /Users/b/Desktop;</span><br><span class="line"></span><br><span class="line">        error_log  logs/error.log;</span><br><span class="line">        #access_log  logs/host.access.log  main;</span><br><span class="line">        location  /a/ &#123;</span><br><span class="line">            alias /Users/b/Desktop/Nginx_files/; # 别名</span><br><span class="line">            index  6.gif IMG_2021.jpg;  # 定义索引，按顺序匹配</span><br><span class="line">        &#125;</span><br><span class="line">        #若按照上述配置的话，则访问/a/目录里面的文件时，ningx会自动去/Users/b/Desktop/Nginx_files/目录找文件</span><br><span class="line"></span><br><span class="line">        # 将特定的文件或目录重新定位，如 php 文件，image 目录等</span><br><span class="line">        location /Nginx_files/ &#123;</span><br><span class="line">            root  /Users/b/Desktop;</span><br><span class="line">            index  6.gif IMG_2021.jpg;  # 定义索引，按顺序匹配</span><br><span class="line">        &#125;</span><br><span class="line">        #若按照这种配置的话，则访问/Nginx_files/目录下的文件时，nginx会去/Users/b/Desktop/Nginx_files/目录下找文件。</span><br><span class="line">        error_page  404              /404.html;  # 定义显示 404 错误的 uri</span><br><span class="line"></span><br><span class="line">        # redirect server error pages to the static page /50x.html</span><br><span class="line">        #</span><br><span class="line"></span><br><span class="line">        error_page   500 502 503 504  /50x.html;</span><br><span class="line"></span><br><span class="line">        location = /50x.html &#123;   # location 精准匹配 &apos;/50x.html&apos;</span><br><span class="line">            root   html;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        # proxy the PHP scripts to Apache listening on 127.0.0.1:80</span><br><span class="line">        #</span><br><span class="line">        #location ~ \.php$ &#123;  # 正则表达式: .php文件走的路径</span><br><span class="line">        #    proxy_pass   http://127.0.0.1;</span><br><span class="line">        #&#125;</span><br><span class="line"></span><br><span class="line">        # pass the PHP scripts to FastCGI server listening on 127.0.0.1:9000</span><br><span class="line">        #</span><br><span class="line">        #location ~ \.php$ &#123;</span><br><span class="line">        #    root           html;</span><br><span class="line">        #    fastcgi_pass   127.0.0.1:9000;  #走fastcgi 路径</span><br><span class="line">        #    fastcgi_index  index.php;</span><br><span class="line">        #    fastcgi_param  SCRIPT_FILENAME  /scripts$fastcgi_script_name; #定义的根目录 以及 请求的脚名</span><br><span class="line">        #    include        fastcgi_params; # 请求参数</span><br><span class="line">        #&#125;</span><br><span class="line"></span><br><span class="line">        # deny access to .htaccess files, if Apache&apos;s document root</span><br><span class="line">        # concurs with nginx&apos;s one</span><br><span class="line">        #</span><br><span class="line">        #location ~ /\.ht &#123;</span><br><span class="line">        #    deny  all;</span><br><span class="line">        #&#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    # another virtual host using mix of IP-, name-, and port-based configuration</span><br><span class="line">    #</span><br><span class="line">    #server &#123;</span><br><span class="line">    #    listen       8000;</span><br><span class="line">    #    listen       somename:8080;</span><br><span class="line">    #    server_name  somename  alias  another.alias;</span><br><span class="line"></span><br><span class="line">    #    location / &#123;</span><br><span class="line">    #        root   html;</span><br><span class="line">    #        index  index.html index.htm;</span><br><span class="line">    #    &#125;</span><br><span class="line">    #&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    # HTTPS server</span><br><span class="line">    #</span><br><span class="line">    #server &#123;</span><br><span class="line">    #    listen       443 ssl;</span><br><span class="line">    #    server_name  localhost;</span><br><span class="line"></span><br><span class="line">    #    ssl_certificate      cert.pem;</span><br><span class="line">    #    ssl_certificate_key  cert.key;</span><br><span class="line"></span><br><span class="line">    #    ssl_session_cache    shared:SSL:1m;</span><br><span class="line">    #    ssl_session_timeout  5m;</span><br><span class="line"></span><br><span class="line">    #    ssl_ciphers  HIGH:!aNULL:!MD5;</span><br><span class="line">    #    ssl_prefer_server_ciphers  on;</span><br><span class="line"></span><br><span class="line">    #    location / &#123;</span><br><span class="line">    #        root   html;</span><br><span class="line">    #        index  index.html index.htm;</span><br><span class="line">    #    &#125;</span><br><span class="line">    #&#125;</span><br><span class="line">    include servers/*;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="参考文档"><a href="#参考文档" class="headerlink" title="参考文档"></a>参考文档</h2><ul>
+<li>苗泽老师的《Nginx高性能Web服务器详解》</li>
+</ul>
 
-主进程的主要目的是为了读取和评估配置并且维护工作进程。工作进程处理实际请求。
-nginx在工作进程中采用事件驱动模型和OS依赖机制有效分配请求。
-工作进程的数量取决于配置文件中定义的固定值或者是通
-          ...
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2019/09/06/nginx入门指南/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
+          
         
       
     </div>
@@ -726,20 +859,17 @@ nginx在工作进程中采用事件驱动模型和OS依赖机制有效分配请�
       
         
           
-          介绍
-一个对象有状态变化
-每次状态变化都会触发一个逻辑
-不能总是用 if…else 来控制
+            <h2 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h2><ul>
+<li>一个对象有状态变化</li>
+<li>每次状态变化都会触发一个逻辑</li>
+<li>不能总是用 if…else 来控制</li>
+</ul>
+<h2 id="demo"><a href="#demo" class="headerlink" title="demo"></a>demo</h2><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">State</span> </span>&#123;</span><br><span class="line">  <span class="keyword">constructor</span>(color) &#123;</span><br><span class="line">    <span class="keyword">this</span>.color = color</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  handel() &#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">`turn to <span class="subst">$&#123; <span class="keyword">this</span>.color &#125;</span> light`</span>);</span><br><span class="line">    context.setState(<span class="keyword">this</span>)</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Context</span> </span>&#123;</span><br><span class="line">  <span class="keyword">constructor</span>() &#123;</span><br><span class="line">    <span class="keyword">this</span>.state = <span class="literal">null</span></span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  getState() &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">this</span>.state</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  setState(state) &#123;</span><br><span class="line">    <span class="keyword">this</span>.state = state</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> context = <span class="keyword">new</span> Context();</span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> green = <span class="keyword">new</span> State(<span class="string">'green'</span>);</span><br><span class="line"><span class="keyword">let</span> yellow = <span class="keyword">new</span> State(<span class="string">'yellow'</span>);</span><br><span class="line"><span class="keyword">let</span> red = <span class="keyword">new</span> State(<span class="string">'red'</span>);</span><br><span class="line"></span><br><span class="line">green.handel();</span><br><span class="line"><span class="built_in">console</span>.log(context.getState());</span><br><span class="line"></span><br><span class="line">yellow.handel();</span><br><span class="line"><span class="built_in">console</span>.log(context.getState());</span><br><span class="line"></span><br><span class="line">red.handel();</span><br><span class="line"><span class="built_in">console</span>.log(context.getState());</span><br></pre></td></tr></table></figure>
+<h2 id="应用场景"><a href="#应用场景" class="headerlink" title="应用场景"></a>应用场景</h2><ul>
+<li>ES6 Promise</li>
+</ul>
 
-demo123456789101112131415161718192021222324252627282930313233343536373839class State &#123;  constructo
-          ...
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2019/09/06/前端设计模式（状态模式）/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
+          
         
       
     </div>
@@ -931,19 +1061,38 @@ demo123456789101112131415161718192021222324252627282930313233343536373839class S
       
         
           
-          介绍
-顺序访问一个集合
-使用者无需知道集合的内部结构（封装）
+            <h2 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h2><ul>
+<li>顺序访问一个集合</li>
+<li>使用者无需知道集合的内部结构（封装）</li>
+</ul>
+<h2 id="demo"><a href="#demo" class="headerlink" title="demo"></a>demo</h2><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Iterator</span> </span>&#123;</span><br><span class="line">  <span class="keyword">constructor</span>(container) &#123;</span><br><span class="line">    <span class="keyword">this</span>.list = container.list;</span><br><span class="line">    <span class="keyword">this</span>.index = <span class="number">0</span>;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  next() &#123;</span><br><span class="line">    <span class="keyword">if</span> (<span class="keyword">this</span>.hasNext()) &#123;</span><br><span class="line">      <span class="keyword">return</span> <span class="keyword">this</span>.list[<span class="keyword">this</span>.index++]</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="literal">null</span></span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  hasNext() &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">this</span>.index &lt; <span class="keyword">this</span>.list.length;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Container</span> </span>&#123;</span><br><span class="line">  <span class="keyword">constructor</span>(list) &#123;</span><br><span class="line">    <span class="keyword">this</span>.list = list</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="comment">// 生成遍历器</span></span><br><span class="line">  getIterator() &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">new</span> Iterator(<span class="keyword">this</span>)</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> arr = [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>];</span><br><span class="line"><span class="keyword">let</span> container = <span class="keyword">new</span> Container(arr);</span><br><span class="line"><span class="keyword">let</span> iterator = container.getIterator();</span><br><span class="line"><span class="keyword">while</span> (iterator.hasNext())&#123;</span><br><span class="line">  <span class="built_in">console</span>.log(iterator.next());</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="应用场景"><a href="#应用场景" class="headerlink" title="应用场景"></a>应用场景</h2><ul>
+<li>jQuery each</li>
+<li><p>ES6 Iterator</p>
+<ul>
+<li>ES6 语法中，有序集合的数据类型已经有很多</li>
+<li><p>Array Map Set String TypedArray arguments NodeList</p>
+<ul>
+<li>都有 <code>[Symbol.iterator]</code> 属性</li>
+<li>属性值是函数，执行函数返回一个迭代器</li>
+<li>迭代器有 <code>next</code> 方法可以顺序迭代子元素</li>
+<li>可运行 <code>Array.prototype[Symbol.iterator]</code> 测试</li>
+<li><p>实现</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">each</span>(<span class="params">data</span>) </span>&#123;</span><br><span class="line">  <span class="comment">// 生成遍历器</span></span><br><span class="line">  <span class="keyword">let</span> iterator = data[<span class="built_in">Symbol</span>.iterator]();</span><br><span class="line"></span><br><span class="line">  <span class="keyword">let</span> item;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">do</span> &#123;</span><br><span class="line">    item = iterator.next();</span><br><span class="line">    <span class="keyword">if</span> (!item.done) &#123;</span><br><span class="line">      <span class="built_in">console</span>.log(item.value);</span><br><span class="line">    &#125;</span><br><span class="line">  &#125; <span class="keyword">while</span> (!item.done)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> arr = [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>, <span class="number">6</span>];</span><br><span class="line"></span><br><span class="line">each(arr);</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>for…of 语法糖</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">each</span>(<span class="params">data</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">for</span> (<span class="keyword">let</span> item <span class="keyword">of</span> data)&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(item);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> arr = [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>, <span class="number">6</span>];</span><br><span class="line"></span><br><span class="line">each(arr);</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+<li><p>需要有一个统一的遍历接口来遍历所有的数据类型</p>
+</li>
+<li>（Object 不是有序集合，可以用 Map 代替）</li>
+</ul>
+</li>
+</ul>
 
-demo1234567891011121314151617181920212223242526272829303132333435class Iterator &#123;  constructor(container) &#123; 
-          ...
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2019/09/05/前端设计模式（迭代器模式）/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
+          
         
       
     </div>
@@ -1135,20 +1284,31 @@ demo1234567891011121314151617181920212223242526272829303132333435class Iterator 
       
         
           
-          介绍
-发布 &amp; 订阅
-一对多
-主题 和 观察者分离，不是主动触发而是被动监听，两者解耦
+            <h2 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h2><ul>
+<li>发布 &amp; 订阅</li>
+<li>一对多</li>
+<li>主题 和 观察者分离，不是主动触发而是被动监听，两者解耦</li>
+</ul>
+<h2 id="demo"><a href="#demo" class="headerlink" title="demo"></a>demo</h2><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Subject</span> </span>&#123;</span><br><span class="line">  <span class="keyword">constructor</span>()&#123;</span><br><span class="line">    <span class="keyword">this</span>.state = <span class="number">0</span></span><br><span class="line">    <span class="keyword">this</span>.observers = []</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  getState()&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">this</span>.state</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  setState(state)&#123;</span><br><span class="line">    <span class="keyword">this</span>.state = state</span><br><span class="line">    <span class="keyword">this</span>.notifyAllObservers()</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  notifyAllObservers()&#123;</span><br><span class="line">    <span class="keyword">this</span>.observers.forEach(<span class="function"><span class="params">observer</span> =&gt;</span> &#123;</span><br><span class="line">      observer.update()</span><br><span class="line">    &#125;)</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  attach(observer)&#123;</span><br><span class="line">    <span class="keyword">this</span>.observers.push(observer)</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Observer</span> </span>&#123;</span><br><span class="line">  <span class="keyword">constructor</span>(name, subject)&#123;</span><br><span class="line">    <span class="keyword">this</span>.name = name</span><br><span class="line">    <span class="keyword">this</span>.subject = subject</span><br><span class="line">    <span class="keyword">this</span>.subject.attach(<span class="keyword">this</span>)</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  update()&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">`<span class="subst">$&#123; <span class="keyword">this</span>.name &#125;</span> update, state: <span class="subst">$&#123; <span class="keyword">this</span>.subject.getState() &#125;</span>`</span>);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> s = <span class="keyword">new</span> Subject()</span><br><span class="line"><span class="keyword">let</span> o1 = <span class="keyword">new</span> Observer(<span class="string">'o1'</span>, s)</span><br><span class="line"><span class="keyword">let</span> o2 = <span class="keyword">new</span> Observer(<span class="string">'o2'</span>, s)</span><br><span class="line"></span><br><span class="line">s.setState(<span class="number">1</span>)</span><br><span class="line">s.setState(<span class="number">2</span>)</span><br><span class="line">s.setState(<span class="number">3</span>)</span><br></pre></td></tr></table></figure>
+<h2 id="应用场景"><a href="#应用场景" class="headerlink" title="应用场景"></a>应用场景</h2><ul>
+<li>网页事件绑定</li>
+<li>Promise 的 then</li>
+<li>jQuery callbacks</li>
+<li>vue 和 React 组件声明周期触发</li>
+<li><p>nodejs 自定义事件</p>
+<ul>
+<li><p>使用</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> EventEmitter = <span class="built_in">require</span>(<span class="string">'events'</span>).EventEmitter;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> emitter1 = <span class="keyword">new</span> EventEmitter();</span><br><span class="line"><span class="comment">// 监听 some 事件</span></span><br><span class="line">emitter1.on(<span class="string">'some'</span>, info =&gt;&#123;</span><br><span class="line">  <span class="built_in">console</span>.log(<span class="string">'fn1'</span>, info);</span><br><span class="line">&#125;);</span><br><span class="line"><span class="comment">// 监听 some 事件</span></span><br><span class="line">emitter1.on(<span class="string">'some'</span>, info =&gt;&#123;</span><br><span class="line">  <span class="built_in">console</span>.log(<span class="string">'fn2'</span>, info);</span><br><span class="line">&#125;);</span><br><span class="line"><span class="comment">// 触发 some 事件</span></span><br><span class="line">emitter1.emit(<span class="string">'some'</span>,<span class="string">'xxx'</span>);</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>继承</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> EventEmitter = <span class="built_in">require</span>(<span class="string">'events'</span>).EventEmitter;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Dog</span> <span class="keyword">extends</span> <span class="title">EventEmitter</span> </span>&#123;</span><br><span class="line">  <span class="keyword">constructor</span>(name)&#123;</span><br><span class="line">    <span class="keyword">super</span>()</span><br><span class="line">    <span class="keyword">this</span>.name = name</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> xxx = <span class="keyword">new</span> Dog(<span class="string">'xxx'</span>);</span><br><span class="line">xxx.on(<span class="string">'bark'</span>, () =&gt; &#123;</span><br><span class="line">  <span class="built_in">console</span>.log(<span class="keyword">this</span>.name, <span class="string">'barked-1'</span>);</span><br><span class="line">&#125;)</span><br><span class="line">xxx.on(<span class="string">'bark'</span>, () =&gt; &#123;</span><br><span class="line">  <span class="built_in">console</span>.log(<span class="keyword">this</span>.name, <span class="string">'barked-2'</span>);</span><br><span class="line">&#125;)</span><br><span class="line">xxx.emit(<span class="string">'bark'</span>)</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h3 id="网页事件绑定"><a href="#网页事件绑定" class="headerlink" title="网页事件绑定"></a>网页事件绑定</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$(<span class="string">'#btn1'</span>).click(<span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="built_in">console</span>.log(<span class="number">1</span>);</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
 
-demo12345678910111213141516171819202122232425262728293031323334353637383940414243444546class Subject 
-          ...
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2019/08/26/前端设计模式（观察者模式）/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
+          
         
       
     </div>
@@ -1340,20 +1500,13 @@ demo1234567891011121314151617181920212223242526272829303132333435363738394041424
       
         
           
-          介绍
-为子系统中的一组接口提供了一个高层接口
-使用者使用这个高层接口
-业务用的比较多
-
+            <h2 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h2><ul>
+<li>为子系统中的一组接口提供了一个高层接口</li>
+<li>使用者使用这个高层接口</li>
+<li>业务用的比较多</li>
+</ul>
 
           
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2019/08/26/前端设计模式（外观模式）/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
         
       
     </div>
@@ -1545,19 +1698,29 @@ demo1234567891011121314151617181920212223242526272829303132333435363738394041424
       
         
           
-          介绍
-使用者无权访问目标对象
-中间加代理，通过代理做授权和控制
+            <h2 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h2><ul>
+<li>使用者无权访问目标对象</li>
+<li>中间加代理，通过代理做授权和控制</li>
+</ul>
+<h2 id="demo"><a href="#demo" class="headerlink" title="demo"></a>demo</h2><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">ReadImg</span> </span>&#123;</span><br><span class="line">  <span class="keyword">constructor</span>(fileName)&#123;</span><br><span class="line">    <span class="keyword">this</span>.fileName = fileName</span><br><span class="line">    <span class="keyword">this</span>.loadFromDisk()</span><br><span class="line">  &#125;</span><br><span class="line">  loadFromDisk()&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">'loading...'</span> + <span class="keyword">this</span>.fileName);</span><br><span class="line">  &#125;</span><br><span class="line">  display()&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">'display...'</span> + <span class="keyword">this</span>.fileName);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">ProxyImg</span> </span>&#123;</span><br><span class="line">  <span class="keyword">constructor</span>(fileName) &#123;</span><br><span class="line">      <span class="keyword">this</span>.realImg = <span class="keyword">new</span> ReadImg(fileName)</span><br><span class="line">  &#125;</span><br><span class="line">  display()&#123;</span><br><span class="line">    <span class="keyword">this</span>.realImg.display()</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> proxyImg = <span class="keyword">new</span> ProxyImg()</span><br><span class="line">proxyImg.display()</span><br></pre></td></tr></table></figure>
+<h2 id="应用"><a href="#应用" class="headerlink" title="应用"></a>应用</h2><ul>
+<li>网页事件代理（冒泡模型）</li>
+<li>jQuery的$.proxy</li>
+<li><p>ES6 Proxy</p>
+<h3 id="网页事件代理（冒泡模型）"><a href="#网页事件代理（冒泡模型）" class="headerlink" title="网页事件代理（冒泡模型）"></a>网页事件代理（冒泡模型）</h3><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;!doctype html&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">html</span> <span class="attr">lang</span>=<span class="string">"en"</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">head</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">title</span>&gt;</span><span class="tag">&lt;/<span class="name">title</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">meta</span> <span class="attr">charset</span>=<span class="string">"UTF-8"</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">head</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">"div1"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">a</span> <span class="attr">href</span>=<span class="string">"#"</span>&gt;</span>1<span class="tag">&lt;/<span class="name">a</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">a</span> <span class="attr">href</span>=<span class="string">"#"</span>&gt;</span>2<span class="tag">&lt;/<span class="name">a</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">a</span> <span class="attr">href</span>=<span class="string">"#"</span>&gt;</span>3<span class="tag">&lt;/<span class="name">a</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">a</span> <span class="attr">href</span>=<span class="string">"#"</span>&gt;</span>4<span class="tag">&lt;/<span class="name">a</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="undefined"></span></span><br><span class="line"><span class="javascript">  <span class="keyword">const</span> div1 = <span class="built_in">document</span>.querySelector(<span class="string">'#div1'</span>);</span></span><br><span class="line"><span class="javascript">  div1.addEventListener(<span class="string">'click'</span>, <span class="function"><span class="keyword">function</span> (<span class="params">e</span>) </span>&#123;</span></span><br><span class="line"><span class="javascript">    <span class="built_in">console</span>.log(e);</span></span><br><span class="line"><span class="javascript">    <span class="keyword">const</span> &#123; target &#125; = e;</span></span><br><span class="line"><span class="javascript">    <span class="keyword">if</span> (target.nodeName === <span class="string">'A'</span>) &#123;</span></span><br><span class="line"><span class="undefined">      alert(target.innerHTML)</span></span><br><span class="line"><span class="undefined">    &#125;</span></span><br><span class="line"><span class="undefined">  &#125;)</span></span><br><span class="line"><span class="undefined"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<h3 id="ES6-Proxy"><a href="#ES6-Proxy" class="headerlink" title="ES6 Proxy"></a>ES6 Proxy</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> star = &#123;</span><br><span class="line">name: <span class="string">'xxx'</span>,</span><br><span class="line">age: <span class="number">25</span>,</span><br><span class="line">phone: <span class="number">123</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> agent = <span class="keyword">new</span> <span class="built_in">Proxy</span>(star, &#123;</span><br><span class="line">  get(target ,key)&#123;</span><br><span class="line">    <span class="keyword">if</span>(key === <span class="string">'phone'</span>)&#123;</span><br><span class="line">      <span class="keyword">return</span> <span class="string">'321'</span></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span>(key === <span class="string">'price'</span>)&#123;</span><br><span class="line">      <span class="keyword">return</span>  <span class="number">12000</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> target[key]</span><br><span class="line">  &#125;,</span><br><span class="line"></span><br><span class="line">  set(target, key, value, receiver) &#123;</span><br><span class="line">    <span class="keyword">if</span> (key === <span class="string">'customPrice'</span>)&#123;</span><br><span class="line">      <span class="keyword">if</span>(value &lt; <span class="number">100000</span>)&#123;</span><br><span class="line">        <span class="keyword">throw</span> <span class="keyword">new</span> <span class="built_in">Error</span>(<span class="string">'价格太低'</span>)</span><br><span class="line">      &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> value</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line"><span class="built_in">console</span>.log(agent.phone);</span><br><span class="line"><span class="built_in">console</span>.log(agent.name);</span><br><span class="line"><span class="built_in">console</span>.log(agent.age);</span><br><span class="line">agent.customPrice = <span class="number">1000000</span></span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h2 id="代理模式-VS-适配器模式"><a href="#代理模式-VS-适配器模式" class="headerlink" title="代理模式 VS 适配器模式"></a>代理模式 VS 适配器模式</h2><ul>
+<li>适配器模式：提供一个不同的接口</li>
+<li>代理模式：提供一个一模一样的接口</li>
+</ul>
+<h2 id="代理模式-VS-装饰器模式"><a href="#代理模式-VS-装饰器模式" class="headerlink" title="代理模式 VS 装饰器模式"></a>代理模式 VS 装饰器模式</h2><ul>
+<li>装饰器模式：扩展功能，原有功能不变且可以直接使用</li>
+<li>代理模式：显示原有功能，但是经过限制或者阉割之后的</li>
+</ul>
 
-demo123456789101112131415161718192021222324class ReadImg &#123;  constructor(fileName)&#123;    this.fileName = fileN
-          ...
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2019/08/26/前端设计模式（代理模式）/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
+          
         
       
     </div>
@@ -1749,21 +1912,29 @@ demo123456789101112131415161718192021222324class ReadImg &#123;  constructor(fil
       
         
           
-          介绍
-为对象添加新功能
+            <h2 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h2><ul>
+<li>为对象添加新功能</li>
+</ul>
+<h2 id="应用"><a href="#应用" class="headerlink" title="应用"></a>应用</h2><ul>
+<li>旧接口的封装</li>
+<li>Vue computed</li>
+<li>ES7<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//  npm i babel-plugin-transform-decorators-legacy -D</span></span><br><span class="line"><span class="comment">// .babelrc "plugins": ["transform-decorators-legacy"]</span></span><br><span class="line">@testDec</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Demo</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">testDec</span>(<span class="params">target</span>) </span>&#123;</span><br><span class="line">  target.isDec = <span class="literal">true</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">alert(Demo.isDec)</span><br><span class="line"></span><br><span class="line"><span class="comment">// 实例二</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">mixins</span>(<span class="params">...list</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> <span class="function"><span class="keyword">function</span>(<span class="params">target</span>) </span>&#123;</span><br><span class="line">    <span class="built_in">Object</span>.assign(target.prototype, ...list)</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> Foo = &#123;</span><br><span class="line">  foo()&#123;</span><br><span class="line">    alert(<span class="string">'foo'</span>)</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">@mixins(Foo)</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">MyClass</span> </span>&#123;</span><br><span class="line">  </span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> obj = <span class="keyword">new</span> MyClass()</span><br><span class="line">obj.foo()</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h2 id="demo"><a href="#demo" class="headerlink" title="demo"></a>demo</h2><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Circle</span> </span>&#123;</span><br><span class="line">  draw()&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">'圆'</span>);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Decorator</span> </span>&#123;</span><br><span class="line">  <span class="keyword">constructor</span>(circle)&#123;</span><br><span class="line">    <span class="keyword">this</span>.circle = circle</span><br><span class="line">  &#125;</span><br><span class="line">  draw()&#123;</span><br><span class="line">    <span class="keyword">this</span>.circle.draw()</span><br><span class="line">    <span class="keyword">this</span>.setRedBorder(circle)</span><br><span class="line">  &#125;</span><br><span class="line">  setRedBorder(circle)&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">'红色边框'</span>);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> circle = <span class="keyword">new</span> Circle()</span><br><span class="line">circle.draw()</span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> dec = <span class="keyword">new</span> Decorator(circle)</span><br><span class="line">dec.draw()</span><br></pre></td></tr></table></figure>
+<h2 id="装饰方法"><a href="#装饰方法" class="headerlink" title="装饰方法"></a>装饰方法</h2><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">readonly</span>(<span class="params">target, name, descriptor</span>) </span>&#123;</span><br><span class="line">  descriptor.writable = <span class="literal">false</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="class"><span class="keyword">class</span>  <span class="title">Person</span> </span>&#123;</span><br><span class="line">  <span class="keyword">constructor</span>()&#123;</span><br><span class="line">    <span class="keyword">this</span>.first = <span class="string">'A'</span></span><br><span class="line">    <span class="keyword">this</span>.last = <span class="string">'B'</span></span><br><span class="line">  &#125;</span><br><span class="line">  </span><br><span class="line">  @readonly</span><br><span class="line">  name()&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="string">`<span class="subst">$&#123;<span class="keyword">this</span>.first&#125;</span> <span class="subst">$&#123;<span class="keyword">this</span>.last&#125;</span>`</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">log</span>(<span class="params">target, name ,descriptor</span>) </span>&#123;</span><br><span class="line">  <span class="built_in">console</span>.log(target,name,descriptor);</span><br><span class="line">  <span class="keyword">let</span> oldValue = descriptor.value</span><br><span class="line">  descriptor.value = <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">`calling <span class="subst">$&#123;name&#125;</span> width`</span>,<span class="built_in">arguments</span>)</span><br><span class="line">    <span class="keyword">return</span> oldValue.apply(<span class="keyword">this</span>, <span class="built_in">arguments</span>)</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">return</span> descriptor</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Math</span> </span>&#123;</span><br><span class="line">  @log</span><br><span class="line">  add(a, b)&#123;</span><br><span class="line">    <span class="keyword">return</span> a + b</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> math = <span class="keyword">new</span> <span class="built_in">Math</span>();</span><br><span class="line"></span><br><span class="line"><span class="built_in">console</span>.log(math.add(<span class="number">1</span>, <span class="number">2</span>));</span><br></pre></td></tr></table></figure>
+<h2 id="core-decorators"><a href="#core-decorators" class="headerlink" title="core-decorators"></a>core-decorators</h2><ul>
+<li><p>装饰器库</p>
+<h3 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&gt; npm i core-decorators -S</span><br></pre></td></tr></table></figure>
+<h3 id="常用api"><a href="#常用api" class="headerlink" title="常用api"></a>常用api</h3><ul>
+<li>deprecate</li>
+<li>readonly</li>
+</ul>
+</li>
+</ul>
 
-应用
-旧接口的封装
-Vue computed
-ES7123456789101112131415161718192021222324252627282930313233//  npm i babel-plugin-transform-decorators-legacy -D/
-          ...
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2019/08/19/前端设计模式（装饰器模式）/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
+          
         
       
     </div>
@@ -1955,22 +2126,16 @@ ES7123456789101112131415161718192021222324252627282930313233//  npm i babel-plug
       
         
           
-          介绍
-旧接口和现有接口不一致，需要转换
+            <h2 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h2><ul>
+<li>旧接口和现有接口不一致，需要转换</li>
+</ul>
+<h2 id="应用"><a href="#应用" class="headerlink" title="应用"></a>应用</h2><ul>
+<li>旧接口的封装</li>
+<li>Vue computed</li>
+</ul>
+<h2 id="demo"><a href="#demo" class="headerlink" title="demo"></a>demo</h2><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Adaptee</span> </span>&#123;</span><br><span class="line">  specificRequest()&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="string">'220v'</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Target</span> </span>&#123;</span><br><span class="line">  <span class="keyword">constructor</span>()&#123;</span><br><span class="line">    <span class="keyword">this</span>.adaptee = <span class="keyword">new</span> Adaptee()</span><br><span class="line">  &#125;</span><br><span class="line">  request()&#123;</span><br><span class="line">    <span class="keyword">let</span> info = <span class="keyword">this</span>.adaptee.specificRequest()</span><br><span class="line">    <span class="keyword">return</span> <span class="string">'110v'</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> target = <span class="keyword">new</span> Target()</span><br><span class="line">target.request()</span><br></pre></td></tr></table></figure>
 
-应用
-旧接口的封装
-Vue computed
-
-demo123456789101112131415161718class Adaptee &#123;  specificRequest()&#123;    return '220v'  &#125;&#12
-          ...
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2019/08/19/前端设计模式（适配器模式）/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
+          
         
       
     </div>
@@ -2162,22 +2327,23 @@ demo123456789101112131415161718class Adaptee &#123;  specificRequest()&#123;    
       
         
           
-          介绍
-系统中被唯一使用
-一个类只有一个实例
-强依赖 于 private
+            <h2 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h2><ul>
+<li>系统中被唯一使用</li>
+<li>一个类只有一个实例</li>
+<li>强依赖 于 private</li>
+</ul>
+<h2 id="应用"><a href="#应用" class="headerlink" title="应用"></a>应用</h2><ul>
+<li><p>登录框</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">LoginForm</span> </span>&#123;</span><br><span class="line">  <span class="keyword">constructor</span>() &#123;</span><br><span class="line">    <span class="keyword">this</span>.state = <span class="string">'hide'</span></span><br><span class="line">  &#125;</span><br><span class="line">  show()&#123;</span><br><span class="line">    <span class="keyword">if</span>(<span class="keyword">this</span>.state === <span class="string">'show'</span>)&#123;</span><br><span class="line">      <span class="keyword">return</span>  alert(<span class="string">'已经显示'</span>)</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">this</span>.state = <span class="string">'show'</span></span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">'显示成功'</span>);</span><br><span class="line">  &#125;</span><br><span class="line">  </span><br><span class="line">  hide() &#123;</span><br><span class="line">    <span class="keyword">if</span>(<span class="keyword">this</span>.state === <span class="string">'hide'</span>)&#123;</span><br><span class="line">      <span class="keyword">return</span> alert(<span class="string">'已经隐藏'</span>)</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">this</span>.state = <span class="string">'hide'</span></span><br><span class="line">     <span class="built_in">console</span>.log(<span class="string">'隐藏成功'</span>);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">LoginForm.getInstance = (<span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">let</span> instance</span><br><span class="line">  <span class="keyword">return</span> <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="keyword">if</span>(!instance)&#123;</span><br><span class="line">      instance = <span class="keyword">new</span> LoginForm()</span><br><span class="line">    &#125;    </span><br><span class="line">    <span class="keyword">return</span> instance</span><br><span class="line">  &#125;</span><br><span class="line">&#125;)()</span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> login = LoginForm.getInstance()</span><br><span class="line">login.show()</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>购物车</p>
+</li>
+<li>jQuery 只有一个 $<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span>(<span class="built_in">window</span>.jQuery != <span class="literal">null</span>)&#123;</span><br><span class="line">  <span class="keyword">return</span> <span class="built_in">window</span>.jQuery</span><br><span class="line">&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">  <span class="comment">// 初始化。。。</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h2 id="demo"><a href="#demo" class="headerlink" title="demo"></a>demo</h2><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">SingleObject</span> </span>&#123;</span><br><span class="line">  login() &#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">'login'</span>);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">SingleObject.getInstance = (<span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">let</span> instance</span><br><span class="line">  <span class="keyword">return</span> <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="keyword">if</span>(!instance)&#123;</span><br><span class="line">      instance = <span class="keyword">new</span> SingleObject()</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> instance</span><br><span class="line">  &#125;</span><br><span class="line">&#125;)()</span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> obj1 = SingleObject.getInstance()</span><br><span class="line"><span class="built_in">console</span>.log(obj1);</span><br><span class="line"><span class="keyword">let</span> obj2 = SingleObject.getInstance()</span><br><span class="line"><span class="built_in">console</span>.log(obj2);</span><br></pre></td></tr></table></figure>
 
-应用
-登录框
-123456789101112131415161718192021222324252627282930313233class LoginForm &#123;  constructor() &#123;    t
-          ...
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2019/08/19/前端设计模式（单例模式）/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
+          
         
       
     </div>
@@ -2369,19 +2535,20 @@ demo123456789101112131415161718class Adaptee &#123;  specificRequest()&#123;    
       
         
           
-          工厂模式
-将 new 操作单独封装
-遇到 new 时，可以考虑使用 工厂模式
+            <h2 id="工厂模式"><a href="#工厂模式" class="headerlink" title="工厂模式"></a>工厂模式</h2><ul>
+<li>将 new 操作单独封装</li>
+<li>遇到 new 时，可以考虑使用 工厂模式</li>
+</ul>
+<h2 id="demo"><a href="#demo" class="headerlink" title="demo"></a>demo</h2><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Product</span> </span>&#123;</span><br><span class="line">  <span class="keyword">constructor</span>(name)&#123;</span><br><span class="line">    <span class="keyword">this</span>.name = name</span><br><span class="line">  &#125;</span><br><span class="line">  init()&#123;</span><br><span class="line">    </span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Creator</span> </span>&#123;</span><br><span class="line">  create(name)&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">new</span> Product(name)</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> creator = <span class="keyword">new</span> Creator()</span><br><span class="line"><span class="keyword">let</span> p = creator.create(<span class="string">'demo'</span>)</span><br><span class="line">p.init()</span><br></pre></td></tr></table></figure>
+<h2 id="实例"><a href="#实例" class="headerlink" title="实例"></a>实例</h2><ul>
+<li><p>jQuery</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">jQuery</span> </span>&#123;</span><br><span class="line">  <span class="keyword">constructor</span>(selector)&#123;</span><br><span class="line">    <span class="keyword">let</span> slice = <span class="built_in">Array</span>.prototype.slice;</span><br><span class="line">    <span class="keyword">let</span> dom = slice.call(<span class="built_in">document</span>.querySelectorAll(selector));</span><br><span class="line">    <span class="keyword">let</span> len = dom ? dom.length : <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">let</span> i = <span class="number">0</span>; i &lt; len; i++)&#123;</span><br><span class="line">      <span class="keyword">this</span>[i] = dom[i]</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">this</span>.length = len;</span><br><span class="line">    <span class="keyword">this</span>.selector = selector || <span class="string">''</span>;</span><br><span class="line">  &#125;</span><br><span class="line">   append(node)&#123;</span><br><span class="line">    <span class="comment">// ...</span></span><br><span class="line">   &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="built_in">window</span>.$ = <span class="function"><span class="keyword">function</span>(<span class="params">selector</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> <span class="keyword">new</span> jQuery(selector)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>React.createElement</p>
+</li>
+</ul>
 
-demo123456789101112131415161718class Product &#123;  constructor(name)&#123;    this.name = name  &#125;  init
-          ...
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2019/08/19/前端设计模式（工厂模式）/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
+          
         
       
     </div>
