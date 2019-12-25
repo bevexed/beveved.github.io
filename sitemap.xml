@@ -2,6 +2,13 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>http://blog.bevexed.top/about/index.html</loc>
+    
+    <lastmod>2019-12-02T10:59:58.158Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>http://blog.bevexed.top/2019/09/06/nginx%E5%85%A5%E9%97%A8%E6%8C%87%E5%8D%97/</loc>
     
     <lastmod>2019-09-10T06:09:19.085Z</lastmod>
@@ -103,13 +110,6 @@
     <loc>http://blog.bevexed.top/2019/07/16/TCP-IP/</loc>
     
     <lastmod>2019-07-16T05:29:44.979Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://blog.bevexed.top/about/index.html</loc>
-    
-    <lastmod>2019-07-16T01:21:07.585Z</lastmod>
     
   </url>
   
